@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\SeniorResident;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +12,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Panggil seeder utama
+        $this->call([
+            GedungSeeder::class,
+            KamarSeeder::class,
+            DormitizenSeeder::class,
+        ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Jalankan SeniorResidentSeeder setelah seeding selesai
+        $this->seedPartDua();
+    }
+
+    /**
+     * Fungsi untuk menjalankan SeniorResidentSeeder.
+     */
+    protected function seedPartDua(): void
+    {
+        $this->call([
+            SeniorResidentSeeder::class,
+            HelpdeskSeeder::class
         ]);
     }
 }
