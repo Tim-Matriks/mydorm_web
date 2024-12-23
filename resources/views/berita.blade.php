@@ -35,7 +35,76 @@
         <!-- NAVBAR -->
 
         <!-- MAIN -->
+        <section id="main" class="container">
+            <div class="paket-container">
 
+                <!-- Search Bar dan Dropdown -->
+                <div class="row mb-4 justify-content-end">
+                    <div class="col-md-1 mb-3 text-end">
+                        <a href="./tambahPaket.html">
+                            <button class="btn btn-danger ">+</button>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="Cari disini">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option selected disabled>Urutkan</option>
+                            <option value="1">Hari ini</option>
+                            <option value="2">Terlama</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tabel Data -->
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">Nomor Urut</th>
+                                <th scope="col">Nama Berit</th>
+                                <th scope="col">Kategori</th>
+                                <th scope="col">Tanggal Dibuat</th>
+                                <th scope="col">Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($beritas as $berita)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $berita->judul }}</td>
+                                <td>{{ $berita->kategori }}</td>
+                                <td>{{ $berita->created_at->format('d-m-Y') }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-info">Detail</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <span class="text-muted">Menampilkan data 1 sampai 9 dari 25 data</span>
+                    <nav>
+                        <ul class="pagination mb-0">
+                            <li class="page-item">
+                                <button class="page-link prev-page">&lt;</button>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">1</span>
+                            </li>
+                            <li class="page-item">
+                                <button class="page-link next-page">&gt;</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </section>
         <!-- MAIN -->
     </section>
 
