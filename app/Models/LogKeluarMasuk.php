@@ -23,7 +23,7 @@ class LogKeluarMasuk extends Model
         'senior_resident_id', 
         'helpdesk_id'
     ];
-
+    
     public function dormitizen():BelongsTo
     {
         return $this->belongsTo(Dormitizen::class, 'dormitizen_id', 'dormitizen_id');
