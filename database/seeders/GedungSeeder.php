@@ -14,26 +14,10 @@ class GedungSeeder extends Seeder
     {
         $gedungData = [
             //GD asrama putra
-            ['kode' => 'A01', 'nama' => 'Laag'],
-            ['kode' => 'A02', 'nama' => 'Larat'],
-            ['kode' => 'A03', 'nama' => 'Leti'],
-            ['kode' => 'A04', 'nama' => 'Liki'],
-            ['kode' => 'A05', 'nama' => 'Lingian'],
-            ['kode' => 'A06', 'nama' => 'Liran'],
-            ['kode' => 'A07', 'nama' => 'Sambit'],
-            ['kode' => 'A08', 'nama' => 'Sebetul'],
-            ['kode' => 'A09', 'nama' => 'Sekatung'],
-            ['kode' => 'A10', 'nama' => 'Sekel'],
+            ['kode' => 'A01', 'nama' => 'Laag','created_at' => now(), 'updated_at' => now()],
 
             // GD asrama putri
-            ['kode' => 'B01', 'nama' => 'Dana'],
-            ['kode' => 'B02', 'nama' => 'Dona'],
-            ['kode' => 'B03', 'nama' => 'Enggano'],
-            ['kode' => 'B04', 'nama' => 'Enu'],
-            ['kode' => 'B05', 'nama' => 'Fani'],
-            ['kode' => 'B06', 'nama' => 'Fanildo'],
-            ['kode' => 'A11', 'nama' => 'Sebelas'],
-            ['kode' => 'A12', 'nama' => 'Duabelas'],
+            ['kode' => 'B01', 'nama' => 'Dana','created_at' => now(), 'updated_at' => now()],
         ];
 
         DB::table('gedung')->insert($gedungData);
