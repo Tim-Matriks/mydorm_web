@@ -28,11 +28,19 @@ class KamarSeeder extends Seeder
             // Lantai 2, 3, dan 4: 24 kamar per lantai
             for ($lantai = 2; $lantai <= 4; $lantai++) {
                 for ($i = 1; $i <= 24; $i++) {
-                    $kamarData[] = [
-                        'nomor' => $lantai . str_pad($i, 2, '0', STR_PAD_LEFT), // Format Lantai xx
-                        'status' => 'terkunci', // Default status
-                        'gedung_id' => $g->gedung_id,
-                    ];
+                    if ($i % 2 == 0) {
+                        $kamarData[] = [
+                            'nomor' => $lantai . str_pad($i, 2, '0', STR_PAD_LEFT), // Format Lantai xx
+                            'status' => 'terbuka', // Default status
+                            'gedung_id' => $g->gedung_id,
+                        ];
+                    } else {
+                        $kamarData[] = [
+                            'nomor' => $lantai . str_pad($i, 2, '0', STR_PAD_LEFT), // Format Lantai xx
+                            'status' => 'terkunci', // Default status
+                            'gedung_id' => $g->gedung_id,
+                        ];
+                    }
                 }
             }
         }
