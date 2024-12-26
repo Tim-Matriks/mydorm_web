@@ -5,12 +5,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaketController;
 use App\Http\Controllers\PelanggaranController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\KamarController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/paket', [PaketController::class, 'index']);
+Route::get('/kamar', [KamarController::class, 'index']);
+Route::get('/kamar/{id}', [KamarController::class, 'detail']);
 Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
 
 
