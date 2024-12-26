@@ -40,9 +40,11 @@
                 @foreach ($kamars as $kamar)
                     @if (substr($kamar->nomor, 0, 1) == '4' && $kamar->gedung_id == 1)
                         <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                            <div class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
-                                {{ $kamar->nomor }}
-                            </div>
+                            <a href="/kamar/{{ $kamar->kamar_id }}">
+                                <div class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
+                                    {{ $kamar->nomor }}
+                                </div>
+                            </a>
                         </div>
                     @endif
                 @endforeach
@@ -52,7 +54,7 @@
 
         <div class="mb-4">
             <h4>Lantai 3</h4>
-            <div class="d-flex flex-wrap justify-content-center">
+            <div class="row">
                 @foreach ($kamars as $kamar)
                     @if (substr($kamar->nomor, 0, 1) == '3' && $kamar->gedung_id == 1)
                         <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
@@ -67,7 +69,7 @@
 
         <div>
             <h4>Lantai 2</h4>
-            <div class="d-flex flex-wrap justify-content-center">
+            <div class="row">
                 @foreach ($kamars as $kamar)
                     @if (substr($kamar->nomor, 0, 1) == '2' && $kamar->gedung_id == 1)
                         <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
@@ -82,7 +84,7 @@
 
         <div>
             <h4>Lantai 1</h4>
-            <div class="d-flex flex-wrap justify-content-center">
+            <div class="row">
                 @foreach ($kamars as $kamar)
                     @if (substr($kamar->nomor, 0, 1) == '1' && $kamar->gedung_id == 1)
                         <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">

@@ -13,6 +13,7 @@ Route::get('/', function () {
 
 Route::get('/paket', [PaketController::class, 'index']);
 Route::get('/kamar', [KamarController::class, 'index']);
+Route::get('/kamar/{id}', [KamarController::class, 'detail']);
 Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
 
 
