@@ -36,7 +36,7 @@
 
         <!-- MAIN -->
         <section id="main" class="container">
-            <div class="paket-container">
+            <div class="pelanggaran-container">
 
                 <!-- Search Bar dan Dropdown -->
                 <div class="row mb-4 justify-content-end">
@@ -75,7 +75,6 @@
                                         </div>
                                         <div class="col-6">{{ $pelanggaran->total_pelanggaran }}/9</div>
                                     </div>
-
                                 </td>
                                 <td>
                                     <a href="/kamar/{{ $pelanggaran->dormitizen->kamar->kamar_id }}" class="btn btn-info">Detail</a>
@@ -88,7 +87,7 @@
 
 
                 <!-- Pagination -->
-                {[ $pelanggarans->links:('pagination::bootstrap-5') ]}
+                {{ $pelanggarans->links('pagination::bootstrap-5') }}
 
             </div>
         </section>

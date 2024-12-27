@@ -36,7 +36,14 @@
 
         <!-- MAIN -->
         <section id="main" class="container">
-            <div class="paket-container">
+            <div class="berita-container">
+
+                <!-- Success Message -->
+                @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+                @endif
 
                 <!-- Search Bar dan Dropdown -->
                 <div class="row mb-4 justify-content-end">
