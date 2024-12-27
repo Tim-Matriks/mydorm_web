@@ -9,10 +9,13 @@ class PelanggaranController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data dari model Pelanggaran dengan pagination
-        $pelanggarans = Pelanggaran::with('dormitizen')->paginate(9);
+        // Mengambil data pelanggaran dengan mengelompokkan berdasarkan dormitizen_id
+        $pelanggarans = Pelanggaran::selectRaw('dormitizen_id, count(*) as total_pelanggaran')
+            ->groupBy('dormitizen_id')
+            ->with('dormitizen.kamar') // Mengambil relasi dormitizen dan kamar
+            ->get();
 
         // Mengirimkan data ke view 'pelanggaran.index'
-        return view('pelanggaran', compact('pelanggarans'));
+        return view('pelanggaran.index', compact('pelanggarans'));
     }
 }

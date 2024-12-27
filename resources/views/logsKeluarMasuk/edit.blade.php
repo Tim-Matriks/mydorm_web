@@ -41,16 +41,16 @@
                     @csrf
                     <label for="nomor_kamar" class="form-label">Nomor Kamar</label>
                     @if(session('dormitizens'))
-                        <div class="input-group">
-                            <input type="number" name="nomor_kamar" class="form-control" placeholder={{ session('dormitizens')[0]['nomor_kamar'] }} required>
-                            <button type="submit" class="btn btn-primary">Cari Dormitizen</button>
-                        </div>
+                    <div class="input-group">
+                        <input type="number" name="nomor_kamar" class="form-control" placeholder={{ session('dormitizens')[0]['nomor_kamar'] }} required>
+                        <button type="submit" class="btn btn-primary">Cari Dormitizen</button>
+                    </div>
                     @else
-                        <div class="input-group">
-                            <input type="number" name="nomor_kamar" class="form-control" placeholder={{ $logData['nomor_kamar'] }} required>
-                            <button type="submit" class="btn btn-primary">Cari Dormitizen</button>
-                        </div>
-                    @endif 
+                    <div class="input-group">
+                        <input type="number" name="nomor_kamar" class="form-control" placeholder={{ $logData['nomor_kamar'] }} required>
+                        <button type="submit" class="btn btn-primary">Cari Dormitizen</button>
+                    </div>
+                    @endif
                 </form>
 
                 <form action="{{ route('logskeluarmasuk.update', $logData['log_keluar_masuk_id']) }}" method="POST">
@@ -60,27 +60,27 @@
                         @if(session('dormitizens'))
                         <div class="nama-container mb-3">
                             <label for="" class="form-label">Nama Dormitizen</label>
-                                <div id="dormitizen-list" class="mt-3">
+                            <div id="dormitizen-list" class="mt-3">
                                 @if(count(session('dormitizens')) > 0)
-                                    <select id="dormitizen-select" name="dormitizen_id" class="form-select" required>
-                                        <option value="" disabled selected>Pilih Dormitizen</option>
-                                        @foreach(session('dormitizens') as $dormitizen)
-                                            <option value="{{ $dormitizen['dormitizen_id'] }}">{{ $dormitizen['nama'] }}</option>
-                                        @endforeach
-                                    </select>
+                                <select id="dormitizen-select" name="dormitizen_id" class="form-select" required>
+                                    <option value="" disabled selected>Pilih Dormitizen</option>
+                                    @foreach(session('dormitizens') as $dormitizen)
+                                    <option value="{{ $dormitizen['dormitizen_id'] }}">{{ $dormitizen['nama'] }}</option>
+                                    @endforeach
+                                </select>
                                 @else
-                                    <p class="text-danger">Tidak ada Dormitizen ditemukan.</p>
+                                <p class="text-danger">Tidak ada Dormitizen ditemukan.</p>
                                 @endif
                             </div>
                         </div>
                         @endif
                         <div class="pjPenerima-container mb-3">
                             <label for="pjPenerima" class="form-label">PJ Penerima</label>
-                            <input type="text", name="pjPenerima", class="form-control" placeholder={{ $logData['nama_pj'] }} disabled>
+                            <input type="text" , name="pjPenerima" , class="form-control" placeholder={{ $logData['nama_pj'] }} disabled>
                         </div>
                         <div class="waktu-container mb-3">
                             <label for="waktu" class="form-label">Waktu Penerima</label>
-                            <input type="datetime-local", class="form-control", name="waktu" placeholder={{ $logData['waktu'] }}>
+                            <input type="datetime-local" , class="form-control" , name="waktu" placeholder={{ $logData['waktu'] }}>
                         </div>
                         <div class="aktivitas-container mb-3">
                             <label for="" class="form-label">Aktivitas</label>
@@ -112,7 +112,7 @@
                             <button class="btn btn-danger">Simpan Perubahan</button>
                         </div>
                     </div>
-                </form>       
+                </form>
             </div>
         </section>
         <!-- MAIN -->
