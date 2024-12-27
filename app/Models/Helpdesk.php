@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Helpdesk extends Model
+
+class Helpdesk extends Authenticatable
 {
     use HasFactory;
 
@@ -16,12 +17,14 @@ class Helpdesk extends Model
     protected $keyType = 'int';
     public $timestamps = true;
     protected $fillable = [
-        'nip', 
-        'nama', 
+        'nip',
+        'nama',
+        'username',
+        'password',
         'gedung_id'
     ];
 
-    public function gedung():BelongsTo
+    public function gedung(): BelongsTo
     {
         return $this->belongsTo(Gedung::class, 'gedung_id', 'gedung_id');
     }
