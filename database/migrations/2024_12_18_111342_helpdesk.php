@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id('helpdesk_id');
             $table->string('nip', 18);
             $table->string('nama', 100);
+            $table->string('username');
+            $table->string('password');
             $table->foreignId('gedung_id')->nullable()->constrained('gedung', 'gedung_id')->onDelete('set null');
             $table->timestamps();
         });

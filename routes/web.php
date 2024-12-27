@@ -7,6 +7,7 @@ use App\Http\Controllers\PelanggaranController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\DormitizenController;
+use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,3 +37,6 @@ Route::put('/berita/{berita}', [BeritaController::class, 'update'])->name('berit
 Route::delete('/berita/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
 
 Route::get('/dormitizen', [DormitizenController::class, 'index']);
+
+Route::get('/login', [LoginController::class, 'index'])->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
