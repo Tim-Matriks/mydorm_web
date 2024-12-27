@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaketController;
 use App\Http\Controllers\PelanggaranController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\DormitizenController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,3 +28,4 @@ Route::get('logs/search-dormitizen', [LogController::class, 'searchDormitizen'])
 
 Route::get('/berita', [BeritaController::class, 'index']);
 
+Route::get('/dormitizen', [DormitizenController::class, 'index']);
