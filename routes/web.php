@@ -13,7 +13,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/paket', [PaketController::class, 'index']);
+// Route untuk paket
+Route::get('/paket', [PaketController::class, 'index'])->name('paket.index');
+Route::get('/paket/create', [PaketController::class, 'create'])->name('paket.create');
+Route::post('/paket', [PaketController::class, 'store'])->name('paket.store');
+Route::get('/paket/{paket}/edit', [PaketController::class, 'edit'])->name('paket.edit');
+Route::put('/paket/{paket}', [PaketController::class, 'update'])->name('paket.update');
+Route::delete('/paket/{paket}', [PaketController::class, 'destroy'])->name('paket.destroy');
+
 Route::get('/kamar', [KamarController::class, 'index']);
 Route::get('/kamar/{id}', [KamarController::class, 'detail']);
 Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
