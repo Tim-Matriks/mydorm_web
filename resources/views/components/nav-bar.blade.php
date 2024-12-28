@@ -1,20 +1,38 @@
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between align-items-center mb-3">
-    <div class="d-flex align-items-center">
-        <button class="btn btn-outline-secondary me-2"><i class="bx bx-menu"></i></button>
-        <h1 class="h4 mb-0">{{ $slot }}</h1>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Profil
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <form action="/logout" method="POST">
+                    @csrf
+                        <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+                    </form>
+                </li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+        </ul>
+      </div>
     </div>
-    <div class="d-flex align-items-center">
-        <a href="#" class="btn btn-light position-relative me-3">
-            <i class="bx bxs-bell fs-4"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                8
-                <span class="visually-hidden">unread messages</span>
-            </span>
-        </a>
-        <a href="#" class="profile">
-            <img src="../assets/images/avatar.jpg" alt="avatar" class="rounded-circle" width="40" height="40">
-        </a>
-    </div>
-</nav>
-<!-- NAVBAR -->
+  </nav>
