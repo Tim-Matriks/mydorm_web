@@ -7,6 +7,7 @@ use App\Models\Paket;
 use App\Models\Helpdesk;
 use App\Models\Dormitizen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PaketController extends Controller
 {
@@ -31,7 +32,17 @@ class PaketController extends Controller
             'dormitizen_id' => 'required|exists:dormitizen,dormitizen_id', // Validasi bahwa dormitizen_id ada dalam 
             'penerima_paket' => 'required|string|max:255',
             'waktu_tiba' => 'required|date',
+            'gambar' => 'required|mimes:png,jpg,jpeg'
         ]);
+
+        if ($request->has('gambar')) {
+            $file = $request->file('gambar');
+            $extension = $file->getClientOriginalExtension();
+
+            $filename = time() . '_' . uniqid() . '.' . $extension;
+            $path = 'images/gambarPaket/';
+            $file->move($path, $filename);
+        }
 
         try {
             // Menyimpan data paket ke database
@@ -39,6 +50,8 @@ class PaketController extends Controller
                 'dormitizen_id' => $request->input('dormitizen_id'),
                 'penerima_paket' => $request->input('penerima_paket'),
                 'waktu_tiba' => $request->input('waktu_tiba'),
+                'gambar' => $path . $filename
+
             ]);
 
             return redirect()->route('paket.index')->with('success', 'Paket berhasil ditambahkan');
@@ -47,30 +60,49 @@ class PaketController extends Controller
         }
     }
 
-    public function edit(Paket $paket)
+    public function edit($id)
     {
+        // Ambil paket berdasarkan ID
+        $paket = Paket::findOrFail($id);
+
+        // Kirim data paket ke view
         return view('paket.edit', compact('paket'));
     }
 
-    public function update(Request $request, Paket $paket)
+
+    public function update(Request $request, $id)
     {
         // Validasi input
         $request->validate([
-            'nama_penerima' => 'required|string|max:255',
-            'penyerahan_paket' => 'required|string|max:255',
-            'kamar' => 'required|string|max:255',
-            'waktu_tiba' => 'required|date',
-            'status_pengambilan' => 'required|string|max:50',
+            'penyerahan_paket' => 'required',
+            'waktu_diambil' => 'required|date',
+            'status_pengambilan' => 'required|in:belum,sudah'
         ]);
 
-        // Mengupdate data paket
+        // Cari paket berdasarkan ID dan lakukan update
+        $paket = Paket::findOrFail($id);
+
+        // Simpan perubahan
         $paket->update($request->all());
 
-        return redirect()->route('paket.index')->with('success', 'Paket berhasil diupdate');
+        // Redirect ke halaman paket dengan pesan sukses
+        return redirect()->route('paket.index')->with('success', 'Paket berhasil diperbarui');
     }
+
 
     public function destroy(Paket $paket)
     {
+        // Cek apakah ada gambar yang terkait dengan paket
+        if ($paket->gambar) {
+            // Tentukan path gambar di direktori public
+            $filePath = public_path($paket->gambar);
+
+            // Periksa apakah file ada dan kemudian hapus
+            if (File::exists($filePath)) {
+                File::delete($filePath);  // Menghapus gambar
+            }
+        }
+
         // Menghapus paket
         $paket->delete();
 
@@ -91,12 +123,12 @@ class PaketController extends Controller
             // Query untuk mendapatkan kamar berdasarkan nomor kamar dan gedung_id
             $kamar = Kamar::where('nomor', $nomorKamar)
                 ->where('gedung_id', 1)  // Pastikan ini sesuai dengan gedung yang Anda cari
-                ->first(); 
+                ->first();
 
             if ($kamar) {
                 // Ambil data Dormitizen berdasarkan kamar_id
                 $dormitizens = Dormitizen::where('kamar_id', $kamar->kamar_id)->get();
- 
+
 
                 if ($dormitizens->isNotEmpty()) {
                     return redirect()->back()->with([

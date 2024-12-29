@@ -17,8 +17,8 @@ Route::get('/', function () {
 Route::get('/paket', [PaketController::class, 'index'])->name('paket.index');
 Route::get('/paket/create', [PaketController::class, 'create'])->name('paket.create');
 Route::post('/paket', [PaketController::class, 'store'])->name('paket.store');
-Route::get('/paket/{paket}/edit', [PaketController::class, 'edit'])->name('paket.edit');
-Route::put('/paket/{paket}', [PaketController::class, 'update'])->name('paket.update');
+Route::get('/paket/{id}/edit', [PaketController::class, 'edit'])->name('paket.edit');
+Route::put('/paket/{id}', [PaketController::class, 'update'])->name('paket.update');
 Route::delete('/paket/{paket}', [PaketController::class, 'destroy'])->name('paket.destroy');
 Route::get('/paket/search-dormitizen', [PaketController::class, 'searchDormitizen'])->name('paket.searchDormitizen');
 
