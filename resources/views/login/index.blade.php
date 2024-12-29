@@ -9,23 +9,22 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
     <!-- css -->
-    <link rel="stylesheet" href="css/login.css">
-    <style>
-    body{
-        background-image: url("../images/asrama.jpg");
-    }
 
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+
 
 </head>
 
 <body style="margin: 0">
     <img src="images/logo.png">
-    <div class="container">
+    <div class="kontainer">
         <div class="login-box">
             <p>Selamat datang! 👋</p>
             <h3>Login sebagai helpdesk</h3>
-            @if(session()->has('loginError'))
+            @if (session()->has('loginError'))
                 <h4>{{ session('loginError') }}</h4>
             @endif
             <form action="/login" method="POST">
