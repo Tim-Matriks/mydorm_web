@@ -12,25 +12,36 @@ class LogController extends Controller
     private $noGedung = "A01";
 
     public function index() {
-        // Mengambil semua data dari model Paket
-        $logsData = LogKeluarMasuk::with(['dormitizen'])->paginate(6);
-        
-        // Mengirimkan data ke view 'paket.index'
-        return view('logskeluarmasuk.index', compact('logsData'));
-        
-        // $getLogApi = "{$this->ApiBaseURL}/get-logs/{$this->noGedung}";
-        // try {
-        //     $response = Http::get($getLogApi);
+        $query = LogKeluarMasuk::with(['dormitizen', 'helpdesk', 'dormitizen.kamar']); // Sesuaikan relasi sesuai model
 
-        //     if ($response->successful()) {
-        //         $logsData = $response->json()['data'];
-        //         return view('logskeluarmasuk.index', compact('logsData'));
-        //     } else {
-        //         return view('logskeluarmasuk.index')->with('error', 'Failed to fetch data from Node js API');
-        //     }
-        // } catch (\Exception $e) {
-        //     return view('logskeluarmasuk.index')->with('error', $e->getMessage());
-        // }
+        // Handle sorting
+        if (request('filter_sort') == 'latest') {
+            $query->orderBy('waktu', 'desc');
+        } elseif (request('filter_sort') == 'oldest') {
+            $query->orderBy('waktu', 'asc');
+        }
+
+        // Handle search
+        if (request('search')) {
+            $searchTerm = request('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->whereHas('dormitizen', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhereHas('helpdesk', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhereHas('dormitizen.kamar', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nomor', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhere('waktu', 'like', '%' . $searchTerm . '%')
+                ->orWhere('status', 'like', '%' . $searchTerm . '%')
+                ->orWhere('aktivitas', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        $logsData = $query->paginate(10);
+        return view('logskeluarmasuk.index', compact('logsData'));
     }
 
     public function store(Request $request){
@@ -49,7 +60,7 @@ class LogController extends Controller
             if ($response->successful()) {
                 return redirect()->route('logskeluarmasuk.index')->with('success', 'Data log telah berhasil ditambahkan!');
             } else {
-                return redirect()->route('logskeluarmasuk.create')->with('error', 'Gagal menambahkan log!');
+                return redirect()->route('logskeluarmasuk.create')->with('error', 'Semua field harus terisi!');
             }
         } catch (\Exception $e) {
             return redirect()->route('logskeluarmasuk.create')->with('error', 'Gagal menghubungi API!');
@@ -88,14 +99,14 @@ class LogController extends Controller
 
         try {
             $response = Http::get($getLogApi);
-            if ($response->ok()) {
+            if ($response->ok() && (count($response->json()['data']) != 0)) {
                 $dormitizens = $response->json()['data'];
                 return redirect()->back()->with([
                 'dormitizens' => $dormitizens,
                 'nomorKamar' => $nomorKamar,
                 ]);
             } else {
-                return redirect()->back()->with('error', 'Tidak ada Dormitizen ditemukan.');
+                return redirect()->back()->with('error', 'Nomor kamar tidak ditemukan.');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -114,9 +125,9 @@ class LogController extends Controller
                 "helpdesk_id" => $request->pjPenerima,
             ]);
             if ($response->successful()) {
-                return redirect()->route('logskeluarmasuk.index')->with('success', 'Data log telah berhasil ditambahkan!');
+                return redirect()->route('logskeluarmasuk.index')->with('success', 'Data log telah berhasil diubah!');
             } else {
-                return redirect()->back()->with('error', 'Gagal mengubah log!');
+                return redirect()->back()->with('error', 'Semua field harus terisi!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghubungi API!');

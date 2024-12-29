@@ -1,4 +1,7 @@
 <x-layout>
+    @if (session('error')) 
+        <div class="alert alert-danger">{{ session('error') }}</div> 
+    @endif
     <form action="{{ route('logskeluarmasuk.searchDormitizen') }}" method="GET" class="mb-3">
         @csrf 
         <label for="nomor_kamar" class="form-label">Nomor Kamar</label>

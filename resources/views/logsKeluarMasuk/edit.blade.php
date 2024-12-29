@@ -1,4 +1,7 @@
 <x-layout>
+    @if (session('error')) 
+        <div class="alert alert-danger">{{ session('error') }}</div> 
+    @endif 
     <form action="{{ route('logskeluarmasuk.searchDormitizen') }}" method="GET" class="mb-3">
         @csrf
         <label for="nomor_kamar" class="form-label">Nomor Kamar</label>
@@ -36,7 +39,7 @@
             @endif
             <div class="pjPenerima-container mb-3">
                 <label for="pjPenerima" class="form-label">PJ Penerima</label>
-                <input type="text" , name="" , class="form-control" placeholder={{ auth()->user()->nama }} disabled>
+                <input type="text", class="form-control" value="{{ auth()->user()->nama }}" disabled>
                 <input type="text" , name="pjPenerima" , class="form-control" value={{ auth()->user()->helpdesk_id }} hidden>
             </div>
             <div class="waktu-container mb-3">

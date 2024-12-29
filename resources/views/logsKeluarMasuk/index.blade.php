@@ -1,4 +1,9 @@
 <x-layout>
+    @if (session('success')) 
+        <div class="alert alert-success">{{ session('success') }}</div> 
+    @elseif (session('error')) 
+        <div class="alert alert-danger">{{ session('error') }}</div> 
+    @endif
     <!-- Search Bar dan Dropdown -->
     <div class="row mb-4 justify-content-end">
         <!-- Button Tambah Log -->
@@ -9,14 +14,24 @@
         </div>
         {{-- search --}}
         <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Cari disini">
+            <form action="{{ route('logskeluarmasuk.index') }}">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Cari disini">
+                    <button type="submit" class="btn btn-secondary">Cari</button>
+                </div>
+            </form>
         </div>
         <div class="col-md-3">
-            <select class="form-select">
-                <option selected disabled>Urutkan</option>
-                <option value="1">Terbaru</option>
-                <option value="2">Terlama</option>
-            </select>
+            <form action="{{ route('logskeluarmasuk.index') }}" method="GET">
+                <div class="input-group">
+                    <select class="form-select" name="filter_sort" onchange="this.form.submit()">
+                        <option selected disabled>Urutkan</option>
+                        <option value="latest">Terbaru</option>
+                        <option value="oldest">Terlama</option>
+                    </select>
+                </div>
+            </form>
+            
         </div>
     </div>
 
@@ -35,12 +50,11 @@
                 </tr>
             </thead>
             <tbody>
-                <p>{{ auth()->user()->nama }}</p>
                 @foreach ($logsData as $log)
                     <tr class="text-center">
-                        <td>{{ $log['nama_dormitizen'] }}</td>
-                        <td>{{ $log['nama_pj']}}</td>
-                        <td>{{ $log['nomor_kamar'] }}</td>
+                        <td>{{ $log->Dormitizen->nama }}</td>
+                        <td>{{ $log->Helpdesk->nama}}</td>
+                        <td>{{ $log->Dormitizen->Kamar->nomor }}</td>
                         <td>{{ \Carbon\Carbon::parse($log['waktu'])->format('H:i - d/m/Y') }}</td>
                         <td>
                             @if ($log['status'] == 'diterima')
