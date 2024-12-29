@@ -14,7 +14,7 @@ class BeritaController extends Controller
         $query = $request->input('search');
 
         // Mengambil semua data dari model Berita
-        $beritas = Berita::with(['helpdesk'])->paginate(9);
+        $beritas = Berita::with(['helpdesk'])->paginate(10);
 
         // Mengirimkan data ke view 'berita.index'
         return view('berita.index', compact('beritas'));

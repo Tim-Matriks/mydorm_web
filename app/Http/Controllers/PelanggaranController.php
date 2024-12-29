@@ -16,7 +16,7 @@ class PelanggaranController extends Controller
         $pelanggarans = Pelanggaran::with(['dormitizen.kamar']) // Eager load relationships
             ->selectRaw('dormitizen_id, count(*) as total_pelanggaran')
             ->groupBy('dormitizen_id')
-            ->paginate(9); // Pagination dengan total results
+            ->paginate(10); // Pagination dengan total results
 
         // Mengirimkan data ke view 'pelanggaran.index'
         return view('pelanggaran.index', compact('pelanggarans'));

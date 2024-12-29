@@ -17,7 +17,7 @@
 
     <title>Detail Dormitizen | My Dorm</title>
 
-    <link href="css/app.css" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
 </body>
 

@@ -40,7 +40,7 @@
             <p><strong>Kategori:</strong> {{ $berita->kategori }}</p>
             <p><strong>Tanggal Dibuat:</strong> {{ $berita->created_at->format('d-m-Y') }}</p>
             <p><strong>Detail:</strong> {{ $berita->isi }}</p>
-            <p><strong>ID Helpdesk:</strong> {{ $berita->helpdesk_id }}</p>
+            <p><strong>Nama Helpdesk:</strong> {{ $berita->helpdesk->nama }}</p>
             <a href="{{ route('berita.index') }}" class="btn btn-secondary">Kembali</a>
         </div>
         <!-- MAIN -->

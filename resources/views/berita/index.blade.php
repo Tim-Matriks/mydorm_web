@@ -74,7 +74,7 @@
                                 <th scope="col">Kategori</th>
                                 <th scope="col">Tanggal Dibuat</th>
                                 <th scope="col">Detail</th>
-                                <th scope="col">ID Helpdesk</th>
+                                <th scope="col">Nama Helpdesk</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,7 +94,7 @@
                                         <button type="submit" class="btn btn-danger">Hapus</button>
                                     </form>
                                 </td>
-                                <td>{{ $berita->helpdesk_id }}</td>
+                                <td>{{ $berita->helpdesk->nama }}</td>
                             </tr>
                             @endforeach
                         </tbody>
