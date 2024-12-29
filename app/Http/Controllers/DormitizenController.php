@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dormitizen;
-
+use Illuminate\Support\Facades\Auth;
 
 class DormitizenController extends Controller
 {
     function index()
     {
+        $query = Dormitizen::with(['kamar'])
+            ->whereHas('kamar.gedung', function ($subQuery) {
+                $subQuery->where('gedung_id', Auth::user()->gedung_id); // Mengambil hanya gedung dengan id user login
+            });
+
         if (request('search')) {
             $searchTerm = request('search');
             $query = Dormitizen::where('nama', 'like', '%' . $searchTerm . '%')
@@ -19,7 +24,7 @@ class DormitizenController extends Controller
                 ->orWhere('alamat_ortu', 'like', '%' . $searchTerm . '%');
             $data = $query->paginate(10);
         } else {
-            $data = Dormitizen::paginate(10);
+            $data = $query->paginate(10);
         }
 
         return view('dormitizen.index', compact('data'));

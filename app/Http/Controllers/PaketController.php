@@ -7,6 +7,7 @@ use App\Models\Paket;
 use App\Models\Helpdesk;
 use App\Models\Dormitizen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class PaketController extends Controller
@@ -14,7 +15,10 @@ class PaketController extends Controller
     public function index()
     {
         // Membuat query untuk mengambil data Paket
-        $query = Paket::with(['dormitizen', 'penerimaPaket', 'penyerahanPaket', 'dormitizen.kamar']);  // Menambahkan relasi ke Dormitizen
+        $query = Paket::with(['dormitizen', 'penerimaPaket', 'penyerahanPaket', 'dormitizen.kamar'])
+            ->whereHas('dormitizen.kamar.gedung', function ($subQuery) {
+                $subQuery->where('gedung_id', Auth::user()->gedung_id); // Mengambil hanya gedung dengan id user login
+            });  // Menambahkan relasi ke Dormitizen
 
         // Pencarian berdasarkan input dari form
         if (request('search')) {

@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Pelanggaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PelanggaranController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Pelanggaran::with(['dormitizen']);
+        $query = Pelanggaran::with(['dormitizen'])
+            ->whereHas('dormitizen.kamar.gedung', function ($subQuery) {
+                $subQuery->where('gedung_id', Auth::user()->gedung_id); // Mengambil hanya gedung dengan id user login
+            });
 
         if (request('search')) {
             $searchTerm = request('search');

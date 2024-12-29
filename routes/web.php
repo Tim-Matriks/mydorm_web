@@ -55,4 +55,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dormitizen', [DormitizenController::class, 'index'])->name('dormitizen.index');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::post('/dashboard/updateLog/{id}/{status}', [DashboardController::class, 'updateLog'])->name('dashboard.updateLog');
 });
