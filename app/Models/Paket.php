@@ -21,6 +21,7 @@ class Paket extends Model
         'waktu_diambil', 
         'dormitizen_id', 
         'penerima_paket', 
+        'gambar',
         'penyerahan_paket'
     ];
 

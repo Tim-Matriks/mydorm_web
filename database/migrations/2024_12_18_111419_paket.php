@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('dormitizen_id')->nullable()->constrained('dormitizen', 'dormitizen_id')->onDelete('set null');
             $table->foreignId('penerima_paket')->nullable()->constrained('helpdesk', 'helpdesk_id')->onDelete('set null');
             $table->foreignId('penyerahan_paket')->nullable()->constrained('helpdesk', 'helpdesk_id')->onDelete('set null');
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }
