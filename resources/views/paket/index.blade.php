@@ -53,7 +53,7 @@
                         }
                     @endphp
                     <tr>
-                        <td><img src="{{ asset('images/paket.jpg') }}" alt="Gmbr" width="50"></td>
+                        <td><img src="{{ asset($paket->gambar) }}" alt="Gmbr" width="50"></td>
                         <td>{{ $paket->dormitizen->nama }}</td>
                         <td>{{ $paket->penerimaPaket->nama }}</td>
                         <td>{{ $paket->penyerahan_paket }}</td>
@@ -76,7 +76,7 @@
                                 <button type="submit" class="btn btn-danger"
                                     onclick="return confirm('Yakin ingin menghapus log ini?')"><i class="align-middle" data-feather="trash-2"></i> </button>
                             </form>
-                            <a href="#">
+                            <a href="{{ route('paket.edit',$paket->paket_id) }}">
                                 <button class="btn btn-warning "><i class="align-middle" data-feather="edit"></i></button>
                             </a>
                         </td>
@@ -87,13 +87,13 @@
     </div>
 
     <!-- Pagination -->
-    {{ $pakets->links('pagination::bootstrap-5')->with(['style' => 'color: white; background-color: red; border-color: red;']) }}
+    {{ $pakets->links('pagination::bootstrap-5') }}
 
 </x-layout>
 
 
-<!DOCTYPE html>
-<html lang="en">
+{{-- <!DOCTYPE html>
+<html lang="en"> --}}
 
 {{-- <head>
     <meta charset="UTF-8">
