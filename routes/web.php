@@ -20,6 +20,7 @@ Route::post('/paket', [PaketController::class, 'store'])->name('paket.store');
 Route::get('/paket/{paket}/edit', [PaketController::class, 'edit'])->name('paket.edit');
 Route::put('/paket/{paket}', [PaketController::class, 'update'])->name('paket.update');
 Route::delete('/paket/{paket}', [PaketController::class, 'destroy'])->name('paket.destroy');
+Route::get('/paket/search-dormitizen', [PaketController::class, 'searchDormitizen'])->name('paket.searchDormitizen');
 
 Route::get('/kamar', [KamarController::class, 'index']);
 Route::get('/kamar/{id}', [KamarController::class, 'detail']);
