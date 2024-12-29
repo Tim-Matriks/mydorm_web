@@ -1,7 +1,101 @@
+<x-layout>
+    <!-- Search Bar dan Dropdown -->
+    <div class="row mb-4 justify-content-end">
+        <div class="col-md-1 mb-3 text-end">
+            <a href="{{ route('paket.create') }}">
+                <button class="btn btn-danger ">+</button>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Cari disini">
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected disabled>Urutkan</option>
+                <option value="1">Hari ini</option>
+                <option value="2">Terlama</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Tabel Data -->
+    <div class="table-responsive" style="height: 70vh">
+        <table class="table table-hover align-middle text-center">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Gambar</th>
+                    <th scope="col">Nama Penerima</th>
+                    <th scope="col">PJ Penerima</th>
+                    <th scope="col">PJ Penyerahan</th>
+                    <th scope="col">Kamar</th>
+                    <th scope="col">Waktu Tiba</th>
+                    <th scope="col">Waktu Diambil</th>
+                    <th scope="col">Status Pengembalian</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($pakets as $paket)
+                    @php
+                        $datetimeT = $paket->waktu_tiba;
+                        $parts = explode(' ', $datetimeT);
+                        $tanggalT = $parts[0];
+                        $waktuT = $parts[1];
+
+                        $datetimeD = $paket->waktu_diambil;
+                        if ($datetimeD) {
+                            $parts = explode(' ', $datetimeD);
+                            $tanggalD = $parts[0]; // Tanggal
+                            $waktuD = $parts[1]; // Waktu
+                        } else {
+                            $tanggalD = '-';
+                            $waktuD = ' ';
+                        }
+                    @endphp
+                    <tr>
+                        <td><img src="{{ asset('images/paket.jpg') }}" alt="Gmbr" width="50"></td>
+                        <td>{{ $paket->dormitizen->nama }}</td>
+                        <td>{{ $paket->penerimaPaket->nama }}</td>
+                        <td>{{ $paket->penyerahan_paket }}</td>
+                        <td>{{ $paket->dormitizen->kamar->nomor }}</td>
+                        <td>{{ $tanggalT }}<br>{{ $waktuT }}</td>
+                        <td>{{ $tanggalD }}<br>{{ $waktuD }}</td>
+                        <td>
+                            @if ($paket['status_pengambilan'] == 'sudah')
+                                <span
+                                    class="border rounded border-primary p-1 text-primary">{{ $paket['status_pengambilan'] }}</span>
+                            @else
+                                <span
+                                    class="border rounded border-danger p-1 text-danger">{{ $paket['status_pengambilan'] }}</span>
+                            @endif
+                        </td>
+                        <td>
+                            <form action="{{ route('paket.destroy', $paket) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Yakin ingin menghapus log ini?')"><i class="align-middle" data-feather="trash-2"></i> </button>
+                            </form>
+                            <a href="#">
+                                <button class="btn btn-warning "><i class="align-middle" data-feather="edit"></i></button>
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {{ $pakets->links('pagination::bootstrap-5')->with(['style' => 'color: white; background-color: red; border-color: red;']) }}
+
+</x-layout>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+{{-- <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Paket</title>
@@ -44,97 +138,6 @@
                 <!-- Button Tambah Paket -->
 
 
-                <!-- Search Bar dan Dropdown -->
-                <div class="row mb-4 justify-content-end">
-                    <div class="col-md-1 mb-3 text-end">
-                        <a href="{{ route('paket.create') }}">
-                            <button class="btn btn-danger ">+</button>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="Cari disini">
-                    </div>
-                    <div class="col-md-3">
-                        <select class="form-select">
-                            <option selected disabled>Urutkan</option>
-                            <option value="1">Hari ini</option>
-                            <option value="2">Terlama</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Tabel Data -->
-                <div class="table-responsive" style="height: 70vh">
-                    <table class="table table-hover align-middle text-center">
-                        <thead class="table-light">
-                            <tr>
-                                <th scope="col">Gambar</th>
-                                <th scope="col">Nama Penerima</th>
-                                <th scope="col">PJ Penerima</th>
-                                <th scope="col">PJ Penyerahan</th>
-                                <th scope="col">Kamar</th>
-                                <th scope="col">Waktu Tiba</th>
-                                <th scope="col">Waktu Diambil</th>
-                                <th scope="col">Status Pengembalian</th>
-                                <th scope="col">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pakets as $paket)
-                                @php
-                                    $datetimeT = $paket->waktu_tiba;
-                                    $parts = explode(' ', $datetimeT);
-                                    $tanggalT = $parts[0];
-                                    $waktuT = $parts[1];
-
-                                    
-                                    $datetimeD = $paket->waktu_diambil;
-                                    if ($datetimeD) {
-                                        $parts = explode(' ', $datetimeD);
-                                        $tanggalD = $parts[0]; // Tanggal
-                                        $waktuD = $parts[1]; // Waktu
-                                    } else {
-                                        $tanggalD = '-';
-                                        $waktuD = ' ';
-                                    }
-                                @endphp
-                                <tr>
-                                    <td><img src="{{ asset('images/paket.jpg') }}" alt="Gmbr" width="50"></td>
-                                    <td>{{ $paket->dormitizen->nama }}</td>
-                                    <td>{{ $paket->penerimaPaket->nama }}</td>
-                                    <td>{{ $paket->penyerahan_paket }}</td>
-                                    <td>{{ $paket->dormitizen->kamar->nomor}}</td>
-                                    <td>{{ $tanggalT }}<br>{{ $waktuT }}</td>
-                                    <td>{{ $tanggalD }}<br>{{ $waktuD }}</td>
-                                    <td>
-                                        @if ($paket['status_pengambilan'] == 'sudah')
-                                            <span
-                                                class="border rounded border-primary p-1 text-primary">{{ $paket['status_pengambilan'] }}</span>
-                                        @else
-                                            <span
-                                                class="border rounded border-danger p-1 text-danger">{{ $paket['status_pengambilan'] }}</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <form action="{{ route('paket.destroy', $paket) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus log ini?')"><i class="material-icons">delete</i></button>
-                                        </form>
-                                        <a href="#">
-                                            <button class="btn btn-warning "><i class="material-icons" style="color: white;">edit_square</i></button>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination -->
-                {{ $pakets->links('pagination::bootstrap-5') }}
-                
-                
 
             </div>
         </section>
@@ -145,4 +148,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
-</html>
+</html> --}}
