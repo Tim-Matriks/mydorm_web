@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dormitizen;
+use App\Models\LogKeluarMasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Models\LogKeluarMasuk;
-use App\Models\SeniorResident;
-use App\Models\Helpdesk;
-use Carbon\Carbon;
 
 class LogController extends Controller
 {
@@ -16,42 +12,55 @@ class LogController extends Controller
     private $noGedung = "A01";
 
     public function index() {
-        $getLogApi = "{$this->ApiBaseURL}/get-logs/{$this->noGedung}";
+        $query = LogKeluarMasuk::with(['dormitizen', 'helpdesk', 'dormitizen.kamar']); // Sesuaikan relasi sesuai model
 
-        try {
-            $response = Http::get($getLogApi);
-
-            if ($response->successful()) {
-                $logsData = $response->json()['data'];
-                return view('logskeluarmasuk.index', compact('logsData'));
-            } else {
-                return view('logskeluarmasuk.index')->with('error', 'Failed to fetch data from Node js API');
-            }
-        } catch (\Exception $e) {
-            return view('logskeluarmasuk.index')->with('error', $e->getMessage());
+        // Handle sorting
+        if (request('filter_sort') == 'latest') {
+            $query->orderBy('waktu', 'desc');
+        } elseif (request('filter_sort') == 'oldest') {
+            $query->orderBy('waktu', 'asc');
         }
+
+        // Handle search
+        if (request('search')) {
+            $searchTerm = request('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->whereHas('dormitizen', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhereHas('helpdesk', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhereHas('dormitizen.kamar', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nomor', 'like', '%' . $searchTerm . '%');
+                })
+                ->orWhere('waktu', 'like', '%' . $searchTerm . '%')
+                ->orWhere('status', 'like', '%' . $searchTerm . '%')
+                ->orWhere('aktivitas', 'like', '%' . $searchTerm . '%');
+            });
+        }
+
+        $logsData = $query->paginate(10);
+        return view('logskeluarmasuk.index', compact('logsData'));
     }
 
     public function store(Request $request){
         $postLogAPI = "{$this->ApiBaseURL}/add-log";
 
-        // for dias sebagai urusan autentikasi/akun
-        // if pjPenerima = logged in as hd, helpdesk_id = pjPenerima_akun->helpdesk_id, senior_resident_id = null
-        // else if pjPenerima = logged in as SR, senior_resident_id = pjPenerima_akun->senior_resident_id, helpdesk_id = null
         try {
             $response = Http::post($postLogAPI, [
                 "waktu" => $request->waktu,
                 "aktivitas" => $request->aktivitas,
                 "status" => "diterima",
                 "dormitizen_id" => $request->dormitizen_id,
-                "senior_resident_id" => null, //ganti sesuai spesifikasi diatas
-                "helpdesk_id" => "2", //ganti sesuai spesifikasi diatas
+                "senior_resident_id" => null,
+                "helpdesk_id" => $request->pjPenerima, 
             ]);
 
             if ($response->successful()) {
                 return redirect()->route('logskeluarmasuk.index')->with('success', 'Data log telah berhasil ditambahkan!');
             } else {
-                return redirect()->route('logskeluarmasuk.create')->with('error', 'Gagal menambahkan log!');
+                return redirect()->route('logskeluarmasuk.create')->with('error', 'Semua field harus terisi!');
             }
         } catch (\Exception $e) {
             return redirect()->route('logskeluarmasuk.create')->with('error', 'Gagal menghubungi API!');
@@ -84,20 +93,19 @@ class LogController extends Controller
         if (!$nomorKamar) {
             return redirect()->back()->with('error', 'Nomor kamar harus diisi.');
         }
-
-        // API request ke endpoint yang relevan
+        
         $getLogApi = "{$this->ApiBaseURL}/get-dormitizens/{$this->noGedung}/{$nomorKamar}";
 
         try {
             $response = Http::get($getLogApi);
-            if ($response->ok()) {
+            if ($response->ok() && (count($response->json()['data']) != 0)) {
                 $dormitizens = $response->json()['data'];
                 return redirect()->back()->with([
                 'dormitizens' => $dormitizens,
                 'nomorKamar' => $nomorKamar,
                 ]);
             } else {
-                return redirect()->back()->with('error', 'Tidak ada Dormitizen ditemukan.');
+                return redirect()->back()->with('error', 'Nomor kamar tidak ditemukan.');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -113,12 +121,12 @@ class LogController extends Controller
                 "status" => $request->status,
                 "dormitizen_id" => $request->dormitizen_id,
                 "senior_resident_id" => null,
-                "helpdesk_id" => "2",
+                "helpdesk_id" => $request->pjPenerima,
             ]);
             if ($response->successful()) {
-                return redirect()->route('logskeluarmasuk.index')->with('success', 'Data log telah berhasil ditambahkan!');
+                return redirect()->route('logskeluarmasuk.index')->with('success', 'Data log telah berhasil diubah!');
             } else {
-                return redirect()->back()->with('error', 'Gagal mengubah log!');
+                return redirect()->back()->with('error', 'Semua field harus terisi!');
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghubungi API!');

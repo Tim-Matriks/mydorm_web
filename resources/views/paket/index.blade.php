@@ -7,14 +7,21 @@
             </a>
         </div>
         <div class="col-md-3">
-            <input type="text" class="form-control" placeholder="Cari disini">
+            <form action="{{ route('paket.index') }}">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Cari disini">
+                    <button type="submit" class="btn btn-secondary">Cari</button>
+                </div>
+            </form>
         </div>
         <div class="col-md-3">
-            <select class="form-select">
-                <option selected disabled>Urutkan</option>
-                <option value="1">Hari ini</option>
-                <option value="2">Terlama</option>
-            </select>
+            <form action="{{ route('paket.index') }}" method="GET">
+                <select class="form-select" name="filter_sort" onchange="this.form.submit()">
+                    <option selected disabled>Urutkan</option>
+                    <option value="latest">Terbaru</option>
+                    <option value="oldest">Terlama</option>
+                </select>
+            </form>
         </div>
     </div>
 
@@ -56,7 +63,7 @@
                         <td><img src="{{ asset($paket->gambar) }}" alt="Gmbr" width="50"></td>
                         <td>{{ $paket->dormitizen->nama }}</td>
                         <td>{{ $paket->penerimaPaket->nama }}</td>
-                        <td>{{ $paket->penyerahan_paket }}</td>
+                        <td>{{ $paket->penyerahanPaket ? $paket->penyerahanPaket->nama : '-' }}</td>
                         <td>{{ $paket->dormitizen->kamar->nomor }}</td>
                         <td>{{ $tanggalT }}<br>{{ $waktuT }}</td>
                         <td>{{ $tanggalD }}<br>{{ $waktuD }}</td>

@@ -13,12 +13,42 @@ class PaketController extends Controller
 {
     public function index()
     {
-        // Mengambil semua data dari model Paket
-        $pakets = Paket::with(['dormitizen'])->paginate(10);
+        // Membuat query untuk mengambil data Paket
+        $query = Paket::with(['dormitizen', 'penerimaPaket', 'penyerahanPaket', 'dormitizen.kamar']);  // Menambahkan relasi ke Dormitizen
+
+        // Pencarian berdasarkan input dari form
+        if (request('search')) {
+            $searchTerm = request('search');  // Ambil nilai pencarian
+
+            // Menambahkan kondisi pencarian pada query
+            $query->where(function ($q) use ($searchTerm) {
+                $q->whereHas('dormitizen', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+                })->orWhereHas('penerimaPaket', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+                })->orWhereHas('penyerahanPaket', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+                })->orWhereHas('dormitizen.kamar', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nomor', 'like', '%' . $searchTerm . '%');
+                });
+            });
+            // $query->whereHas('dormitizen', function ($subQuery) use ($searchTerm) {
+            //     // Menyaring Paket berdasarkan nama Dormitizen yang mengandung kata kunci pencarian
+            //     $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+            // });
+        }
+
+        // Menyaring paket yang memenuhi kriteria pencarian
+        $pakets = $query->paginate(10);
 
         // Mengirimkan data ke view 'paket.index'
         return view('paket.index', compact('pakets'));
     }
+
+
+
+
+
 
     public function create()
     {
