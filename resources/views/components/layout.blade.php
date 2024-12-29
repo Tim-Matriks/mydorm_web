@@ -14,10 +14,11 @@
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
-
+    
     <title>Detail Dormitizen | My Dorm</title>
-
-    <link href="css/app.css" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -40,8 +41,8 @@
         </div>
     </div>
 
-    <script src="js/app.js"></script>
-
+    <script src="{{ asset('js/app.js') }}"></script>
+    
 </body>
 
 </html>
