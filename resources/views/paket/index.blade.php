@@ -15,7 +15,8 @@
         <div class="col-md-3">
             <form action="{{ route('paket.index') }}">
                 <div class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Cari disini">
+                    <input type="text" name="search" class="form-control" placeholder="Cari disini"
+                        value="{{ request('search') ?? '' }}">
                     <button type="submit" class="btn btn-secondary">Cari</button>
                 </div>
             </form>
@@ -109,6 +110,6 @@
         </div>
     </div>
     <!-- Pagination -->
-    {{ $pakets->links('pagination::bootstrap-5') }}
+    {{ $pakets->appends(request()->query())->links('pagination::bootstrap-5') }}
 
 </x-layout>
