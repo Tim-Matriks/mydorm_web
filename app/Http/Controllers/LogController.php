@@ -93,8 +93,7 @@ class LogController extends Controller
         if (!$nomorKamar) {
             return redirect()->back()->with('error', 'Nomor kamar harus diisi.');
         }
-
-        // API request ke endpoint yang relevan
+        
         $getLogApi = "{$this->ApiBaseURL}/get-dormitizens/{$this->noGedung}/{$nomorKamar}";
 
         try {
