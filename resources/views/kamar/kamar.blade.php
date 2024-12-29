@@ -7,7 +7,8 @@
                     <head>
                         <meta charset="UTF-8">
                         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+                        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+                            rel="stylesheet">
                         <title>Tampilan Lantai</title>
                         <style>
                             .room {
@@ -41,15 +42,16 @@
                                 <h4>Lantai 4</h4>
                                 <div class="row">
                                     @foreach ($kamars as $kamar)
-                                    @if (substr($kamar->nomor, 0, 1) == '4' && $kamar->gedung_id == 1)
-                                    <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                                        <a href="/kamar/{{ $kamar->kamar_id }}">
-                                            <div class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
-                                                {{ $kamar->nomor }}
+                                        @if (substr($kamar->nomor, 0, 1) == '4' && $kamar->gedung_id == 1)
+                                            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
+                                                <a href="/kamar/{{ $kamar->kamar_id }}">
+                                                    <div
+                                                        class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
+                                                        {{ $kamar->nomor }}
+                                                    </div>
+                                                </a>
                                             </div>
-                                        </a>
-                                    </div>
-                                    @endif
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -59,13 +61,16 @@
                                 <h4>Lantai 3</h4>
                                 <div class="row">
                                     @foreach ($kamars as $kamar)
-                                    @if (substr($kamar->nomor, 0, 1) == '3' && $kamar->gedung_id == 1)
-                                    <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                                        <div class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
-                                            {{ $kamar->nomor }}
-                                        </div>
-                                    </div>
-                                    @endif
+                                        @if (substr($kamar->nomor, 0, 1) == '3' && $kamar->gedung_id == 1)
+                                            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
+                                                <a href="/kamar/{{ $kamar->kamar_id }}">
+                                                    <div
+                                                        class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
+                                                        {{ $kamar->nomor }}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -74,13 +79,16 @@
                                 <h4>Lantai 2</h4>
                                 <div class="row">
                                     @foreach ($kamars as $kamar)
-                                    @if (substr($kamar->nomor, 0, 1) == '2' && $kamar->gedung_id == 1)
-                                    <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                                        <div class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
-                                            {{ $kamar->nomor }}
-                                        </div>
-                                    </div>
-                                    @endif
+                                        @if (substr($kamar->nomor, 0, 1) == '2' && $kamar->gedung_id == 1)
+                                            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
+                                                <a href="/kamar/{{ $kamar->kamar_id }}">
+                                                    <div
+                                                        class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
+                                                        {{ $kamar->nomor }}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
@@ -89,13 +97,16 @@
                                 <h4>Lantai 1</h4>
                                 <div class="row">
                                     @foreach ($kamars as $kamar)
-                                    @if (substr($kamar->nomor, 0, 1) == '1' && $kamar->gedung_id == 1)
-                                    <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
-                                        <div class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
-                                            {{ $kamar->nomor }}
-                                        </div>
-                                    </div>
-                                    @endif
+                                        @if (substr($kamar->nomor, 0, 1) == '1' && $kamar->gedung_id == 1)
+                                            <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
+                                               <a href="/kamar/{{ $kamar->kamar_id }}">
+                                                    <div
+                                                        class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }} ">
+                                                        {{ $kamar->nomor }}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 </div>
                             </div>
