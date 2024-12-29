@@ -15,8 +15,8 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="#">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Lorem</span>
+                <a class="sidebar-link" href="/logs">
+                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Log Keluar-Masuk</span>
                 </a>
             </li>
 

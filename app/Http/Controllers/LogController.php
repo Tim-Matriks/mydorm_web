@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dormitizen;
+use App\Models\LogKeluarMasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use App\Models\LogKeluarMasuk;
-use App\Models\SeniorResident;
-use App\Models\Helpdesk;
-use Carbon\Carbon;
 
 class LogController extends Controller
 {
@@ -16,36 +12,38 @@ class LogController extends Controller
     private $noGedung = "A01";
 
     public function index() {
-        $getLogApi = "{$this->ApiBaseURL}/get-logs/{$this->noGedung}";
+        // Mengambil semua data dari model Paket
+        $logsData = LogKeluarMasuk::with(['dormitizen'])->paginate(6);
+        
+        // Mengirimkan data ke view 'paket.index'
+        return view('logskeluarmasuk.index', compact('logsData'));
+        
+        // $getLogApi = "{$this->ApiBaseURL}/get-logs/{$this->noGedung}";
+        // try {
+        //     $response = Http::get($getLogApi);
 
-        try {
-            $response = Http::get($getLogApi);
-
-            if ($response->successful()) {
-                $logsData = $response->json()['data'];
-                return view('logskeluarmasuk.index', compact('logsData'));
-            } else {
-                return view('logskeluarmasuk.index')->with('error', 'Failed to fetch data from Node js API');
-            }
-        } catch (\Exception $e) {
-            return view('logskeluarmasuk.index')->with('error', $e->getMessage());
-        }
+        //     if ($response->successful()) {
+        //         $logsData = $response->json()['data'];
+        //         return view('logskeluarmasuk.index', compact('logsData'));
+        //     } else {
+        //         return view('logskeluarmasuk.index')->with('error', 'Failed to fetch data from Node js API');
+        //     }
+        // } catch (\Exception $e) {
+        //     return view('logskeluarmasuk.index')->with('error', $e->getMessage());
+        // }
     }
 
     public function store(Request $request){
         $postLogAPI = "{$this->ApiBaseURL}/add-log";
 
-        // for dias sebagai urusan autentikasi/akun
-        // if pjPenerima = logged in as hd, helpdesk_id = pjPenerima_akun->helpdesk_id, senior_resident_id = null
-        // else if pjPenerima = logged in as SR, senior_resident_id = pjPenerima_akun->senior_resident_id, helpdesk_id = null
         try {
             $response = Http::post($postLogAPI, [
                 "waktu" => $request->waktu,
                 "aktivitas" => $request->aktivitas,
                 "status" => "diterima",
                 "dormitizen_id" => $request->dormitizen_id,
-                "senior_resident_id" => null, //ganti sesuai spesifikasi diatas
-                "helpdesk_id" => "2", //ganti sesuai spesifikasi diatas
+                "senior_resident_id" => null,
+                "helpdesk_id" => $request->pjPenerima, 
             ]);
 
             if ($response->successful()) {
@@ -113,7 +111,7 @@ class LogController extends Controller
                 "status" => $request->status,
                 "dormitizen_id" => $request->dormitizen_id,
                 "senior_resident_id" => null,
-                "helpdesk_id" => "2",
+                "helpdesk_id" => $request->pjPenerima,
             ]);
             if ($response->successful()) {
                 return redirect()->route('logskeluarmasuk.index')->with('success', 'Data log telah berhasil ditambahkan!');
