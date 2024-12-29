@@ -10,10 +10,17 @@ use App\Http\Controllers\DormitizenController;
 use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
-Route::get('/paket', [PaketController::class, 'index']);
+// Route untuk paket
+Route::get('/paket', [PaketController::class, 'index'])->name('paket.index');
+Route::get('/paket/create', [PaketController::class, 'create'])->name('paket.create');
+Route::post('/paket', [PaketController::class, 'store'])->name('paket.store');
+Route::get('/paket/{paket}/edit', [PaketController::class, 'edit'])->name('paket.edit');
+Route::put('/paket/{paket}', [PaketController::class, 'update'])->name('paket.update');
+Route::delete('/paket/{paket}', [PaketController::class, 'destroy'])->name('paket.destroy');
+
 Route::get('/kamar', [KamarController::class, 'index']);
 Route::get('/kamar/{id}', [KamarController::class, 'detail']);
 Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
@@ -40,3 +47,4 @@ Route::get('/dormitizen', [DormitizenController::class, 'index']);
 
 Route::get('/login', [LoginController::class, 'index'])->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class, 'logout']);

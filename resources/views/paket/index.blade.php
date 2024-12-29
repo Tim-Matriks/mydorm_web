@@ -9,12 +9,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Optional: Box Icons for UI Elements -->
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
     <section id="content" class="container-fluid">
         <!-- NAVBAR -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between align-items-center mb-3">
+        <nav
+            class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between align-items-center mb-3">
             <div class="d-flex align-items-center">
                 <button class="btn btn-outline-secondary me-2"><i class="bx bx-menu"></i></button>
                 <h1 class="h4 mb-0">Paket</h1>
@@ -28,7 +30,8 @@
                     </span>
                 </a>
                 <a href="#" class="profile">
-                    <img src="../assets/images/avatar.jpg" alt="avatar" class="rounded-circle" width="40" height="40">
+                    <img src="../assets/images/avatar.jpg" alt="avatar" class="rounded-circle" width="40"
+                        height="40">
                 </a>
             </div>
         </nav>
@@ -39,12 +42,12 @@
             <div class="paket-container">
 
                 <!-- Button Tambah Paket -->
-                
+
 
                 <!-- Search Bar dan Dropdown -->
                 <div class="row mb-4 justify-content-end">
                     <div class="col-md-1 mb-3 text-end">
-                        <a href="./tambahPaket.html">
+                        <a href="{{ route('paket.create') }}">
                             <button class="btn btn-danger ">+</button>
                         </a>
                     </div>
@@ -61,8 +64,8 @@
                 </div>
 
                 <!-- Tabel Data -->
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover">
+                <div class="table-responsive" style="height: 70vh">
+                    <table class="table table-hover align-middle text-center">
                         <thead class="table-light">
                             <tr>
                                 <th scope="col">Gambar</th>
@@ -78,18 +81,49 @@
                         </thead>
                         <tbody>
                             @foreach ($pakets as $paket)
+                                @php
+                                    $datetimeT = $paket->waktu_tiba;
+                                    $parts = explode(' ', $datetimeT);
+                                    $tanggalT = $parts[0];
+                                    $waktuT = $parts[1];
+
+                                    
+                                    $datetimeD = $paket->waktu_diambil;
+                                    if ($datetimeD) {
+                                        $parts = explode(' ', $datetimeD);
+                                        $tanggalD = $parts[0]; // Tanggal
+                                        $waktuD = $parts[1]; // Waktu
+                                    } else {
+                                        $tanggalD = '-';
+                                        $waktuD = ' ';
+                                    }
+                                @endphp
                                 <tr>
                                     <td><img src="{{ asset('images/paket.jpg') }}" alt="Gmbr" width="50"></td>
-                                    <td>{{ $paket->Dormitizen->nama }}</td>
+                                    <td>{{ $paket->dormitizen->nama }}</td>
                                     <td>{{ $paket->penerimaPaket->nama }}</td>
                                     <td>{{ $paket->penyerahan_paket }}</td>
-                                    <td>{{ $paket->kamar ? $paket->kamar->nomor : '101' }}</td>
-                                    <td>{{ $paket->waktu_tiba }}</td>
-                                    <td>{{ $paket->waktu_diambil ?? '-' }}</td>
-                                    <td>{{ $paket->status_pengambilan }}</td>
+                                    <td>{{ $paket->dormitizen->kamar->nomor}}</td>
+                                    <td>{{ $tanggalT }}<br>{{ $waktuT }}</td>
+                                    <td>{{ $tanggalD }}<br>{{ $waktuD }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-danger">delete</a>
-                                        <a href="#" class="btn btn-warning">edit</a>
+                                        @if ($paket['status_pengambilan'] == 'sudah')
+                                            <span
+                                                class="border rounded border-primary p-1 text-primary">{{ $paket['status_pengambilan'] }}</span>
+                                        @else
+                                            <span
+                                                class="border rounded border-danger p-1 text-danger">{{ $paket['status_pengambilan'] }}</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('paket.destroy', $paket) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus log ini?')"><i class="material-icons">delete</i></button>
+                                        </form>
+                                        <a href="#">
+                                            <button class="btn btn-warning "><i class="material-icons" style="color: white;">edit_square</i></button>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -98,22 +132,9 @@
                 </div>
 
                 <!-- Pagination -->
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <span class="text-muted">Menampilkan data 1 sampai 8 dari 15 data</span>
-                    <nav>
-                        <ul class="pagination mb-0">
-                            <li class="page-item">
-                                <button class="page-link prev-page">&lt;</button>
-                            </li>
-                            <li class="page-item disabled">
-                                <span class="page-link">1</span>
-                            </li>
-                            <li class="page-item">
-                                <button class="page-link next-page">&gt;</button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+                {{ $pakets->links('pagination::bootstrap-5') }}
+                
+                
 
             </div>
         </section>
