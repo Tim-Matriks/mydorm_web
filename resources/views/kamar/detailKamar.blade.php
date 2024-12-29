@@ -5,28 +5,6 @@
             <div class="card">
                 <div class="card-body">
 
-                    <!-- Button Tambah Paket -->
-
-
-                    <!-- Search Bar dan Dropdown -->
-                    <div class="row mb-4 justify-content-end">
-                        <div class="col-md-1 mb-3 text-end">
-                            <a href="./tambahPaket.html">
-                                <button class="btn btn-danger ">+</button>
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Cari disini">
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select">
-                                <option selected disabled>Urutkan</option>
-                                <option value="1">Hari ini</option>
-                                <option value="2">Terlama</option>
-                            </select>
-                        </div>
-                    </div>
-
                     <!-- Tabel Data -->
                     <div class="container mt-5">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -61,15 +39,15 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($dormitizens as $dormitizen)
-                                            <tr>
-                                                <td>{{ $dormitizen->nim }}</td>
-                                                <td>{{ $dormitizen->nama }}</td>
-                                                <td>{{ $dormitizen->prodi }}</td>
-                                                <td>{{ $dormitizen->agama }}</td>
-                                                <td>{{ $dormitizen->no_hp }}</td>
-                                                <td>{{ $dormitizen->no_hp_ortu }}</td>
-                                                <td>{{ $dormitizen->alamat_ortu }}</td>
-                                            </tr>
+                                                <tr>
+                                                    <td>{{ $dormitizen->nim }}</td>
+                                                    <td>{{ $dormitizen->nama }}</td>
+                                                    <td>{{ $dormitizen->prodi }}</td>
+                                                    <td>{{ $dormitizen->agama }}</td>
+                                                    <td>{{ $dormitizen->no_hp }}</td>
+                                                    <td>{{ $dormitizen->no_hp_ortu }}</td>
+                                                    <td>{{ $dormitizen->alamat_ortu }}</td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -90,81 +68,82 @@
                                         </thead>
                                         <tbody>
                                             @foreach ($logsData as $logs)
-                                            @foreach ($logs as $log)
-                                            <tr class="text-center">
-                                                <td>{{ $log->dormitizen->nama }}</td>
-                                                <td>{{ $log->helpdesk_id ? $log->helpdesk->nama : $log->seniorResident->dormitizen->nama }}
-                                                </td>
-                                                <td>{{ $log->dormitizen->kamar->nomor }}</td>
-                                                <td>{{ $log->waktu }}</td>
-                                                <td>
-                                                    @if ($log->status == 'diterima')
-                                                    <span
-                                                        class="text-success border border-3 rounded border-success p-1">{{ $log['status'] }}</span>
-                                                    @elseif ($log->status == 'pending')
-                                                    <span
-                                                        class="text-warning border border-3 rounded border-warning p-1">{{ $log['status'] }}</span>
-                                                    @else
-                                                    <span
-                                                        class="text-danger border border-3 rounded border-danger p-1">{{ $log['status'] }}</span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    @if ($log->aktivitas == 'masuk')
-                                                    <span
-                                                        class="border border-3 rounded border-primary p-1 text-primary">{{ $log['aktivitas'] }}</span>
-                                                    @else
-                                                    <span
-                                                        class="border border-3 rounded border-danger p-1 text-danger">{{ $log['aktivitas'] }}</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                            @endforeach
+                                                @foreach ($logs as $log)
+                                                    <tr class="text-center">
+                                                        <td>{{ $log->dormitizen->nama }}</td>
+                                                        <td>{{ $log->helpdesk_id ? $log->helpdesk->nama : $log->seniorResident->dormitizen->nama }}
+                                                        </td>
+                                                        <td>{{ $log->dormitizen->kamar->nomor }}</td>
+                                                        <td>{{ $log->waktu }}</td>
+                                                        <td>
+                                                            @if ($log->status == 'diterima')
+                                                                <span
+                                                                    class="text-success border border-3 rounded border-success p-1">{{ $log['status'] }}</span>
+                                                            @elseif ($log->status == 'pending')
+                                                                <span
+                                                                    class="text-warning border border-3 rounded border-warning p-1">{{ $log['status'] }}</span>
+                                                            @else
+                                                                <span
+                                                                    class="text-danger border border-3 rounded border-danger p-1">{{ $log['status'] }}</span>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($log->aktivitas == 'masuk')
+                                                                <span
+                                                                    class="border border-3 rounded border-primary p-1 text-primary">{{ $log['aktivitas'] }}</span>
+                                                            @else
+                                                                <span
+                                                                    class="border border-3 rounded border-danger p-1 text-danger">{{ $log['aktivitas'] }}</span>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                             @endforeach
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                <div class="mb-4"></div>
                                 @for ($i = 0; $i < count($dormitizens); $i++)
                                     <h2 class="mb-4">{{ $dormitizens[$i]->nama }}</h2>
                                     @if (count($pelanggaransData[$i]) == 0)
-                                    <div class="alert alert-warning" role="alert">
-                                        Tidak ada pelanggaran
-                                    </div>
+                                        <div class="alert alert-warning" role="alert">
+                                            Tidak ada pelanggaran
+                                        </div>
                                     @else
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead class="table-light">
-                                                <tr>
-                                                    <th>Kategori</th>
-                                                    <th>Waktu</th>
-                                                    <th>Gambar</th>
-                                                    <th>Senior Resident</th>
-                                                    <th>Dormitizen</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($pelanggaransData[$i] as $pelanggaran)
-                                                <tr>
-                                                    <td>{{ $pelanggaran->kategori }}</td>
-                                                    <td>{{ $pelanggaran->waktu }}</td>
-                                                    <td>
-                                                        <img src="{{ asset('images/' . $pelanggaran->gambar) }}"
-                                                            alt="Bukti Pelanggaran" width="100" height="100"
-                                                            style="object-fit: cover;">
-                                                    </td>
-                                                    <td>{{ $pelanggaran->seniorResident->dormitizen->nama ?? 'N/A' }}
-                                                    </td>
-                                                    <td>{{ $pelanggaran->dormitizen->nama ?? 'N/A' }}</td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th>Kategori</th>
+                                                        <th>Waktu</th>
+                                                        <th>Gambar</th>
+                                                        <th>Senior Resident</th>
+                                                        <th>Dormitizen</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($pelanggaransData[$i] as $pelanggaran)
+                                                        <tr>
+                                                            <td>{{ $pelanggaran->kategori }}</td>
+                                                            <td>{{ $pelanggaran->waktu }}</td>
+                                                            <td>
+                                                                <img src="{{ asset('images/' . $pelanggaran->gambar) }}"
+                                                                    alt="Bukti Pelanggaran" width="100"
+                                                                    height="100" style="object-fit: cover;">
+                                                            </td>
+                                                            <td>{{ $pelanggaran->seniorResident->dormitizen->nama ?? 'N/A' }}
+                                                            </td>
+                                                            <td>{{ $pelanggaran->dormitizen->nama ?? 'N/A' }}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     @endif
 
-                                    @endfor
+                                @endfor
                             </div>
                         </div>
                     </div>
