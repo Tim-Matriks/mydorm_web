@@ -23,9 +23,9 @@ Route::put('/paket/{id}', [PaketController::class, 'update'])->name('paket.updat
 Route::delete('/paket/{paket}', [PaketController::class, 'destroy'])->name('paket.destroy');
 Route::get('/paket/search-dormitizen', [PaketController::class, 'searchDormitizen'])->name('paket.searchDormitizen');
 
-Route::get('/kamar', [KamarController::class, 'index']);
-Route::get('/kamar/{id}', [KamarController::class, 'detail']);
-Route::get('/pelanggaran', [PelanggaranController::class, 'index']);
+Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
+Route::get('/kamar/{id}', [KamarController::class, 'detail'])->name('kamar.detail');
+Route::get('/pelanggaran', [PelanggaranController::class, 'index'])->name('pelanggaran.index');
 
 // semua route berkaitan logs
 Route::get('/logs', [LogController::class, 'index'])->name('logskeluarmasuk.index');

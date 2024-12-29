@@ -9,7 +9,6 @@ class DormitizenController extends Controller
 {
     function index()
     {
-        $searchTerm = "";
         if (request('search')) {
             $searchTerm = request('search');
             $query = Dormitizen::where('nama', 'like', '%' . $searchTerm . '%')
