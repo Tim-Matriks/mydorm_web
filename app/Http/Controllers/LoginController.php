@@ -26,7 +26,7 @@ class LoginController extends Controller
             return redirect()->intended('/dormitizen');
         }
 
-        return back()->with('loginError', 'Gagal login');
+        return back()->with('loginError', 'Username atau password salah');
     }
 
     function logout(Request $request): RedirectResponse

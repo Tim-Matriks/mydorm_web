@@ -25,7 +25,7 @@
             <p>Selamat datang! 👋</p>
             <h3>Login sebagai helpdesk</h3>
             @if (session()->has('loginError'))
-                <h4>{{ session('loginError') }}</h4>
+                <div class="alert alert-danger">{{ session('loginError') }}</div>
             @endif
             <form action="/login" method="POST">
                 @csrf
