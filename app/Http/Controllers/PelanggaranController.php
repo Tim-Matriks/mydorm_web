@@ -7,13 +7,16 @@ use Illuminate\Http\Request;
 
 class PelanggaranController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Mengambil data pelanggaran dengan mengelompokkan berdasarkan dormitizen_id
-        $pelanggarans = Pelanggaran::selectRaw('dormitizen_id, count(*) as total_pelanggaran')
+        // Get search query
+        $query = $request->input('search');
+
+        // Query pelanggarans deengan pagination
+        $pelanggarans = Pelanggaran::with(['dormitizen.kamar']) // Eager load relationships
+            ->selectRaw('dormitizen_id, count(*) as total_pelanggaran')
             ->groupBy('dormitizen_id')
-            ->with('dormitizen.kamar') // Mengambil relasi dormitizen dan kamar
-            ->get();
+            ->paginate(10); // Pagination dengan total results
 
         // Mengirimkan data ke view 'pelanggaran.index'
         return view('pelanggaran.index', compact('pelanggarans'));

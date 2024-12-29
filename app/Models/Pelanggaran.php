@@ -16,19 +16,19 @@ class Pelanggaran extends Model
     protected $keyType = 'int';
     public $timestamps = true;
     protected $fillable = [
-        'kategori', 
-        'waktu', 
-        'gambar', 
-        'senior_resident_id', 
+        'kategori',
+        'waktu',
+        'gambar',
+        'senior_resident_id',
         'dormitizen_id'
     ];
 
-    public function seniorResident():BelongsTo
+    public function seniorResident(): BelongsTo
     {
         return $this->belongsTo(SeniorResident::class, 'senior_resident_id', 'senior_resident_id');
     }
 
-    public function dormitizen():BelongsTo
+    public function dormitizen(): BelongsTo
     {
         return $this->belongsTo(Dormitizen::class, 'dormitizen_id', 'dormitizen_id');
     }
