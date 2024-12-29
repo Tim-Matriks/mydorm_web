@@ -3,9 +3,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="container mt-5">
-                        <h2>Keluar Masuk</h2>
-
+                    <div class="container mt-3">
                         @foreach (['4', '3', '2', '1'] as $lantai)
                             <div class="mb-4">
                                 <h4>Lantai {{ $lantai }}</h4>
@@ -14,7 +12,8 @@
                                         @if (substr($kamar->nomor, 0, 1) == $lantai && $kamar->gedung_id == 1)
                                             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
                                                 <a href="/kamar/{{ $kamar->kamar_id }}">
-                                                    <div class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }}">
+                                                    <div
+                                                        class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }}">
                                                         {{ $kamar->nomor }}
                                                     </div>
                                                 </a>
@@ -47,10 +46,12 @@
     }
 
     .available {
-        background-color: grey; /* Grey */
+        background-color: grey;
+        /* Grey */
     }
 
     .occupied {
-        background-color: #994F56; /* Red */
+        background-color: #994F56;
+        /* Red */
     }
 </style>
