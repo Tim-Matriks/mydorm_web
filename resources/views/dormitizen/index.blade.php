@@ -1,5 +1,22 @@
 <x-layout>
-    <h1 class="h3 mb-3">Detail Dormitizen pada gedung A01</h1>
+    <!-- Search Bar dan Dropdown -->
+    <div class="row mb-4 justify-content-end">
+        <h3 class="col-md-5 me-auto">Detail dormitizen gedung {{ auth()->user()->gedung->nama }}</h3>
+        <div class="col-md-1 mb-3 text-end">
+            <a href="{{ route('paket.create') }}">
+                <button class="btn btn-danger ">+</button>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <form action="{{ route('dormitizen.index') }}">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Cari disini"
+                        value="{{ request('search') ?? '' }}">
+                    <button type="submit" class="btn btn-secondary">Cari</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-12">
@@ -36,7 +53,7 @@
                         </table>
                     </div>
 
-                    {{ $data->links() }}
+                    {{ $data->appends(request()->query())->links() }}
                 </div>
             </div>
         </div>

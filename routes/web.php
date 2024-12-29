@@ -45,7 +45,7 @@ Route::get('/berita/{berita}/edit', [BeritaController::class, 'edit'])->name('be
 Route::put('/berita/{berita}', [BeritaController::class, 'update'])->name('berita.update');
 Route::delete('/berita/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
 
-Route::get('/dormitizen', [DormitizenController::class, 'index']);
+Route::get('/dormitizen', [DormitizenController::class, 'index'])->name('dormitizen.index');
 
 Route::get('/login', [LoginController::class, 'index'])->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
