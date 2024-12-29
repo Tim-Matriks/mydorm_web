@@ -37,6 +37,11 @@ class PaketController extends Controller
             //     $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
             // });
         }
+        if (request('filter_sort') == 'latest') {
+            $query->orderBy('waktu_tiba', 'desc');
+        } elseif (request('filter_sort') == 'oldest') {
+            $query->orderBy('waktu_tiba', 'asc');
+        }
 
         // Menyaring paket yang memenuhi kriteria pencarian
         $pakets = $query->paginate(10);
