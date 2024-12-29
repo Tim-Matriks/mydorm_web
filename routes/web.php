@@ -5,12 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaketController;
 use App\Http\Controllers\PelanggaranController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\DormitizenController;
 use App\Http\Controllers\LoginController;
 
 Route::get('/', function () {
-    return view('dashboard');
+    return view('welcome');
 });
 
 // Route untuk paket
@@ -49,3 +50,5 @@ Route::get('/dormitizen', [DormitizenController::class, 'index']);
 Route::get('/login', [LoginController::class, 'index'])->middleware('guest');
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
