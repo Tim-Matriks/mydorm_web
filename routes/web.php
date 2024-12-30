@@ -21,6 +21,7 @@ Route::get('/paket/{id}/edit', [PaketController::class, 'edit'])->name('paket.ed
 Route::put('/paket/{id}', [PaketController::class, 'update'])->name('paket.update');
 Route::delete('/paket/{paket}', [PaketController::class, 'destroy'])->name('paket.destroy');
 Route::get('/paket/search-dormitizen', [PaketController::class, 'searchDormitizen'])->name('paket.searchDormitizen');
+Route::get('/paket/{id}/gambar', [PaketController::class, 'detailGambar'])->name('paket.detailGambar');
 
 Route::get('/kamar', [KamarController::class, 'index']);
 Route::get('/kamar/{id}', [KamarController::class, 'detail']);

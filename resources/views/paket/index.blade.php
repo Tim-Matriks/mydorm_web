@@ -60,7 +60,7 @@
                         }
                     @endphp
                     <tr>
-                        <td><img src="{{ asset($paket->gambar) }}" alt="Gmbr" width="50"></td>
+                        <td><a href="{{ route('paket.detailGambar', $paket->paket_id) }}"><img src="{{ asset($paket->gambar) }}" alt="Gmbr" width="50"></a></td>
                         <td>{{ $paket->dormitizen->nama }}</td>
                         <td>{{ $paket->penerimaPaket->nama }}</td>
                         <td>{{ $paket->penyerahanPaket ? $paket->penyerahanPaket->nama : '-' }}</td>

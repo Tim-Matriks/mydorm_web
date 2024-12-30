@@ -8,6 +8,7 @@ use App\Models\Helpdesk;
 use App\Models\Dormitizen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PaketController extends Controller
 {
@@ -32,10 +33,6 @@ class PaketController extends Controller
                     $subQuery->where('nomor', 'like', '%' . $searchTerm . '%');
                 });
             });
-            // $query->whereHas('dormitizen', function ($subQuery) use ($searchTerm) {
-            //     // Menyaring Paket berdasarkan nama Dormitizen yang mengandung kata kunci pencarian
-            //     $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
-            // });
         }
 
         // Menyaring paket yang memenuhi kriteria pencarian
@@ -44,11 +41,6 @@ class PaketController extends Controller
         // Mengirimkan data ke view 'paket.index'
         return view('paket.index', compact('pakets'));
     }
-
-
-
-
-
 
     public function create()
     {
@@ -174,5 +166,13 @@ class PaketController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+    public function detailGambar($id)
+    {
+        // Cari paket berdasarkan ID
+        $paket = Paket::findOrFail($id);
+
+        // Tampilkan view dengan data paket
+        return view('paket.detailGambar', ['gambar' => $paket->gambar]);
     }
 }
