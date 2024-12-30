@@ -40,7 +40,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             PaketSeeder::class,
-            LogKeluarMasukSeeder::class
+            LogKeluarMasukSeeder::class,
+            PelanggaranSeeder::class
         ]);
     }
 }
