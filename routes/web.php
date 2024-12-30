@@ -23,12 +23,13 @@ Route::middleware(['auth'])->group(function () {
 
     // Route untuk paket
     Route::get('/paket', [PaketController::class, 'index'])->name('paket.index');
-    Route::get('/paket/create', [PaketController::class, 'create'])->name('paket.create');
-    Route::post('/paket', [PaketController::class, 'store'])->name('paket.store');
-    Route::get('/paket/{id}/edit', [PaketController::class, 'edit'])->name('paket.edit');
-    Route::put('/paket/{id}', [PaketController::class, 'update'])->name('paket.update');
-    Route::delete('/paket/{paket}', [PaketController::class, 'destroy'])->name('paket.destroy');
-    Route::get('/paket/search-dormitizen', [PaketController::class, 'searchDormitizen'])->name('paket.searchDormitizen');
+Route::get('/paket/create', [PaketController::class, 'create'])->name('paket.create');
+Route::post('/paket', [PaketController::class, 'store'])->name('paket.store');
+Route::get('/paket/{id}/edit', [PaketController::class, 'edit'])->name('paket.edit');
+Route::put('/paket/{id}', [PaketController::class, 'update'])->name('paket.update');
+Route::delete('/paket/{paket}', [PaketController::class, 'destroy'])->name('paket.destroy');
+Route::get('/paket/search-dormitizen', [PaketController::class, 'searchDormitizen'])->name('paket.searchDormitizen');
+Route::get('/paket/{id}/gambar', [PaketController::class, 'detailGambar'])->name('paket.detailGambar');
 
     Route::get('/kamar', [KamarController::class, 'index'])->name('kamar.index');
     Route::get('/kamar/{id}', [KamarController::class, 'detail'])->name('kamar.detail');
