@@ -1,21 +1,32 @@
 <x-layout>
+    <!-- Search Bar dan Dropdown -->
+    <div class="row mb-4 justify-content-end">
+        <h3 class="col-md-5 me-auto">Pelanggaran</h3>
+        <div class="col-md-3">
+            <form action="{{ route('pelanggaran.index') }}">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Cari disini"
+                        value="{{ request('search') ?? '' }}">
+                    <button type="submit" class="btn btn-secondary">Cari</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form action="{{ route('pelanggaran.index') }}" method="GET">
+                <select class="form-select" name="filter_sort" onchange="this.form.submit()">
+                    <option disabled @selected(!request('filter_sort'))>Urutkan</option>
+                    <option value="most"@selected(request('filter_sort') == 'most')>Most</option>
+                    <option value="least"@selected(request('filter_sort') == 'least')>Least</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <!-- Search Bar dan Dropdown -->
-                    <div class="row mb-4 justify-content-end">
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" placeholder="Cari disini">
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select">
-                                <option selected disabled>Urutkan</option>
-                                <option value="1">Terbanyak</option>
-                                <option value="2">Sedikit</option>
-                            </select>
-                        </div>
-                    </div>
 
                     <!-- Tabel Data -->
                     <div class="table-responsive">
@@ -30,21 +41,25 @@
                             </thead>
                             <tbody>
                                 @foreach ($pelanggarans as $pelanggaran)
-                                <tr>
-                                    <td>{{ $pelanggaran->dormitizen->kamar->nomor ?? 'N/A' }}</td>
-                                    <td>{{ $pelanggaran->dormitizen->nama ?? 'N/A' }}</td>
-                                    <td>
-                                        <div class="row">
-                                            <div class="progress col-6">
-                                                <div class=" progress progress-bar bg-danger" role="progressbar" style="width: <?php echo ($pelanggaran->total_pelanggaran / 9 * 100); ?>%" aria-valuenow="{{ $pelanggaran->total_pelanggaran /9*100}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <tr>
+                                        <td>{{ $pelanggaran->dormitizen->kamar->nomor ?? 'N/A' }}</td>
+                                        <td>{{ $pelanggaran->dormitizen->nama ?? 'N/A' }}</td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="progress col-6 p-0">
+                                                    <div class="progress progress-bar bg-danger" role="progressbar"
+                                                        style="width: {{ ($pelanggaran->total_pelanggaran / 9) * 100 }}%"
+                                                        aria-valuenow="{{ ($pelanggaran->total_pelanggaran / 9) * 100 }}"
+                                                        aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <div class="col-6">{{ $pelanggaran->total_pelanggaran }}/9</div>
                                             </div>
-                                            <div class="col-6">{{ $pelanggaran->total_pelanggaran }}/9</div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a href="/kamar/{{ $pelanggaran->dormitizen->kamar->kamar_id }}" class="btn btn-info">Detail</a>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('kamar.detail', [$pelanggaran->dormitizen->kamar->kamar_id, 'from' => 'pelanggaran']) }}"
+                                                class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -55,5 +70,5 @@
     </div>
 
     <!-- Pagination -->
-    {{ $pelanggarans->links('pagination::bootstrap-5') }}
+    {{ $pelanggarans->appends(request()->query())->links('pagination::bootstrap-5') }}
 </x-layout>

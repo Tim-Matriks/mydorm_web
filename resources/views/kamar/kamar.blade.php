@@ -3,18 +3,17 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="container mt-5">
-                        <h2>Keluar Masuk</h2>
-
+                    <div class="container mt-3">
                         @foreach (['4', '3', '2', '1'] as $lantai)
                             <div class="mb-4">
                                 <h4>Lantai {{ $lantai }}</h4>
                                 <div class="row">
                                     @foreach ($kamars as $kamar)
-                                        @if (substr($kamar->nomor, 0, 1) == $lantai && $kamar->gedung_id == 1)
+                                        @if (substr($kamar->nomor, 0, 1) == $lantai && $kamar->gedung_id == auth()->user()->gedung->gedung_id)
                                             <div class="col-xl-1 col-lg-2 col-md-2 col-sm-3 col-3">
                                                 <a href="/kamar/{{ $kamar->kamar_id }}">
-                                                    <div class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }}">
+                                                    <div
+                                                        class="room {{ $kamar->status == 'terbuka' ? 'available' : 'occupied' }}">
                                                         {{ $kamar->nomor }}
                                                     </div>
                                                 </a>
@@ -31,9 +30,6 @@
     </div>
 </x-layout>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
 <style>
     .room {
         height: 80px;
@@ -47,10 +43,12 @@
     }
 
     .available {
-        background-color: grey; /* Grey */
+        background-color: grey;
+        /* Grey */
     }
 
     .occupied {
-        background-color: #994F56; /* Red */
+        background-color: #994F56;
+        /* Red */
     }
 </style>

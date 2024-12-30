@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Gedung;
-use App\Models\Helpdesk;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,14 +16,14 @@ class HelpdeskSeeder extends Seeder
         $helpdeskData = [];
         $index = 0;
         $helpdesk = [
-            ["nama" => "Agus Prasetyo Santoso", "nip" => "202401010101000001", "username" => "agus", "password" => "12345"],
-            ["nama" => "Siti Kartika Putri", "nip" => "202401010102000002", "username" => "siti", "password" => "12345"],
-            ["nama" => "Rizky Permadi Wijaya", "nip" => "202401010103000003", "username" => "rizky", "password" => "12345"],
-            ["nama" => "Dewi Anggraeni Sari", "nip" => "202401010104000004", "username" => "dewi", "password" => "12345"],
-            ["nama" => "Ahmad Saputra Ramadhan", "nip" => "202401010105000005", "username" => "ahmad", "password" => "12345"],
-            ["nama" => "Fitri Wulandari Cahyani", "nip" => "202401010106000006", "username" => "fitri", "password" => "12345"],
-            ["nama" => "Dimas Aditya Hartono", "nip" => "202401010107000007", "username" => "dimas", "password" => "12345"],
-            ["nama" => "Ayu Melati Lestari", "nip" => "202401010108000008", "username" => "ayu", "password" => "12345"]
+            ["nama" => "Cahyadi Prakasa", "nip" => "202401010101000001", "username" => "cahyadi", "password" => "12345"],
+            ["nama" => "Indra Mansur", "nip" => "202401010102000002", "username" => "indra", "password" => "12345"],
+            ["nama" => "Luthfi Budiman", "nip" => "202401010103000003", "username" => "luthfi", "password" => "12345"],
+            ["nama" => "Emong Halim", "nip" => "202401010104000004", "username" => "emong", "password" => "12345"],
+            ["nama" => "Cinta Mandasari", "nip" => "202401010105000005", "username" => "cinta", "password" => "12345"],
+            ["nama" => "Ina Purnawati", "nip" => "202401010106000006", "username" => "ina", "password" => "12345"],
+            ["nama" => "Febi Hariyah", "nip" => "202401010107000007", "username" => "febi", "password" => "12345"],
+            ["nama" => "Jane Permata", "nip" => "202401010108000008", "username" => "jane", "password" => "12345"]
         ];
 
         // Untuk setiap gedung, buat 4 helpdesk

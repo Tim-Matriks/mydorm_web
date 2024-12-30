@@ -32,5 +32,15 @@ class DatabaseSeeder extends Seeder
             SeniorResidentSeeder::class,
             HelpdeskSeeder::class
         ]);
+
+        $this->seedPartTiga();
+    }
+
+    protected function seedPartTiga(): void
+    {
+        $this->call([
+            PaketSeeder::class,
+            LogKeluarMasukSeeder::class
+        ]);
     }
 }
