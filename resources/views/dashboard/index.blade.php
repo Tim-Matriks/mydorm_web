@@ -46,7 +46,7 @@
                     @if (count($logs) == 0)
                         <h3>Tidak ada request</h3>
                     @else
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="height:300px">
                             <table class="table table-hover">
                                 <thead class="table-light">
                                     <tr class="text-center">

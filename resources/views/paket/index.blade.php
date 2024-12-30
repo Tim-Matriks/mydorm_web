@@ -36,7 +36,7 @@
             <div class="card">
                 <div class="card-body">
                     <!-- Tabel Data -->
-                    <div class="table-responsive" style="height: 70vh">
+                    <div class="table-responsive">
                         <table class="table table-hover align-middle text-center">
                             <thead class="table-light">
                                 <tr>

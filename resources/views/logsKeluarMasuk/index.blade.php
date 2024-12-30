@@ -60,7 +60,7 @@
                                 @foreach ($logsData as $log)
                                     <tr class="text-center">
                                         <td>{{ $log->Dormitizen->nama }}</td>
-                                        <td>{{ $log->Helpdesk->nama }}</td>
+                                        <td>{{ $log->Helpdesk->nama ?? '-' }}</td>
                                         <td>{{ $log->Dormitizen->Kamar->nomor }}</td>
                                         <td>{{ \Carbon\Carbon::parse($log['waktu'])->format('H:i - d/m/Y') }}</td>
                                         <td>
