@@ -18,8 +18,8 @@ class PaketController extends Controller
         // Membuat query untuk mengambil data Paket
         $query = Paket::with(['dormitizen', 'penerimaPaket', 'penyerahanPaket', 'dormitizen.kamar'])
             ->whereHas('dormitizen.kamar.gedung', function ($subQuery) {
-                $subQuery->where('gedung_id', Auth::user()->gedung_id); // Mengambil hanya gedung dengan id user login
-            });  // Menambahkan relasi ke Dormitizen
+                $subQuery->where('gedung_id', Auth::user()->gedung_id);
+            });
 
         // Pencarian berdasarkan input dari form
         if (request('search')) {

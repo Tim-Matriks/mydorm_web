@@ -10,7 +10,7 @@
                             <div class="input-group">
                                 <input type="number" name="nomor_kamar" class="form-control"
                                     placeholder="{{ session('nomorKamar') }}" required>
-                                <button type="submit" class="btn btn-danger">Cari Kamar</button>
+                                <button type="submit" class="btn btn-secondary">Cari Kamar</button>
                             </div>
                         @else
                             <div class="input-group">

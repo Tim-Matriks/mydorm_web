@@ -31,7 +31,7 @@
                             <h5 class="card-title mb-0">Kamar kosong</h5>
                         </div>
                         <div class="card-body mt-0">
-                            <h2>??</h2>
+                            <h2>{{ $kamarKosong }}</h2>
                         </div>
                     </div>
                 </div>

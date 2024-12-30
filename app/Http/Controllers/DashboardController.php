@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dormitizen;
+use App\Models\Kamar;
 use App\Models\LogKeluarMasuk;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -26,7 +27,9 @@ class DashboardController extends Controller
             $subQuery->where('gedung_id', Auth::user()->gedung_id);
         });
         $totalDormitizen = count($query->get());
-        return view('dashboard.index', compact('logs', 'totalDormitizen'));
+        $kamarKosong = count(Kamar::query()->where('status', 'terkunci')->get());
+
+        return view('dashboard.index', compact('logs', 'totalDormitizen', 'kamarKosong'));
     }
 
     public function updateLog($id)
