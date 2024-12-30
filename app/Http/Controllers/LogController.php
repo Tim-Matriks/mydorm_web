@@ -15,8 +15,8 @@ class LogController extends Controller
     {
         $query = LogKeluarMasuk::with(['dormitizen', 'helpdesk', 'dormitizen.kamar', 'dormitizen.kamar.gedung'])
             ->whereHas('dormitizen.kamar.gedung', function ($subQuery) {
-                $subQuery->where('gedung_id', Auth::user()->gedung_id); // Mengambil hanya gedung dengan id user login
-            }); // Sesuaikan relasi sesuai model
+                $subQuery->where('gedung_id', Auth::user()->gedung_id); 
+            }); 
 
         // Handle sorting
         if (request('filter_sort') == 'latest') {
