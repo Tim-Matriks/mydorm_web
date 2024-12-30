@@ -72,7 +72,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" data-bs-toggle="dropdown">
-                    <img src="images/avatar.jpg" class="avatar img-fluid rounded me-1"
+                    <img src="{{ asset('images/avatar.jpg') }}" class="avatar img-fluid rounded me-1"
                         alt="{{ auth()->user()->nama }}" />
                     <span class="text-dark">{{ auth()->user()->nama }}</span>
                 </a>
