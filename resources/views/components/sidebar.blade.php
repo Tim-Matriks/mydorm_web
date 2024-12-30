@@ -4,39 +4,11 @@
             <span class="align-middle">My Dorm</span>
         </a>
         <ul class="sidebar-nav">
-            <li class="sidebar-header">
-                Pages
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="/">
-                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="/logs">
-                    <i class="align-middle" data-feather="book"></i> <span class="align-middle">Log Keluar-Masuk</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="#">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Lorem</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item">
-                <a class="sidebar-link" href="#">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Lorem</span>
-                </a>
-            </li>
-
-            <li class="sidebar-item active">
-                <a class="sidebar-link" href="/dormitizen">
-                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Detail
-                        Dormitizen</span>
-                </a>
-            </li>
+            <x-sidebar-item page="dashboard" icon="sliders">Dashboard</x-sidebar-item>
+            <x-sidebar-item page="logs" icon="book-open">Log Keluar Masuk</x-sidebar-item>
+            <x-sidebar-item page="kamar" icon="grid">Kamar</x-sidebar-item>
+            <x-sidebar-item page="paket" icon="box">Paket</x-sidebar-item>
+            <x-sidebar-item page="pelanggaran" icon="frown">Pelanggaran</x-sidebar-item>
+            <x-sidebar-item page="dormitizen" icon="users">Detail Dormitizen</x-sidebar-item>
     </div>
 </nav>

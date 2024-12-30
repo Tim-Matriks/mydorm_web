@@ -33,7 +33,9 @@ class KamarController extends Controller
             $pelanggaransData[] = Pelanggaran::where('dormitizen_id', $d->dormitizen_id)->get();
         }
 
+        $fromPelanggaran = request('from') == 'pelanggaran';
+
         // Mengirimkan data ke view 'kamar.index'
-        return view('kamar.detailKamar', compact('dormitizens', 'logsData', 'pelanggaransData'));
+        return view('kamar.detailKamar', compact('dormitizens', 'logsData', 'pelanggaransData', 'fromPelanggaran'));
     }
 }

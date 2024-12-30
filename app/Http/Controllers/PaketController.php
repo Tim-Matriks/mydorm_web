@@ -7,6 +7,7 @@ use App\Models\Paket;
 use App\Models\Helpdesk;
 use App\Models\Dormitizen;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -15,7 +16,10 @@ class PaketController extends Controller
     public function index()
     {
         // Membuat query untuk mengambil data Paket
-        $query = Paket::with(['dormitizen', 'penerimaPaket', 'penyerahanPaket', 'dormitizen.kamar']);  // Menambahkan relasi ke Dormitizen
+        $query = Paket::with(['dormitizen', 'penerimaPaket', 'penyerahanPaket', 'dormitizen.kamar'])
+            ->whereHas('dormitizen.kamar.gedung', function ($subQuery) {
+                $subQuery->where('gedung_id', Auth::user()->gedung_id); // Mengambil hanya gedung dengan id user login
+            });  // Menambahkan relasi ke Dormitizen
 
         // Pencarian berdasarkan input dari form
         if (request('search')) {
@@ -33,6 +37,11 @@ class PaketController extends Controller
                     $subQuery->where('nomor', 'like', '%' . $searchTerm . '%');
                 });
             });
+        }
+        if (request('filter_sort') == 'latest') {
+            $query->orderBy('waktu_tiba', 'desc');
+        } elseif (request('filter_sort') == 'oldest') {
+            $query->orderBy('waktu_tiba', 'asc');
         }
 
         // Menyaring paket yang memenuhi kriteria pencarian

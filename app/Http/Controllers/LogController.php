@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\LogKeluarMasuk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class LogController extends Controller
 {
     private $ApiBaseURL = "http://localhost:3000/api";
-    private $noGedung = "A01";
 
-    public function index() {
-        $query = LogKeluarMasuk::with(['dormitizen', 'helpdesk', 'dormitizen.kamar']); // Sesuaikan relasi sesuai model
+    public function index()
+    {
+        $query = LogKeluarMasuk::with(['dormitizen', 'helpdesk', 'dormitizen.kamar', 'dormitizen.kamar.gedung'])
+            ->whereHas('dormitizen.kamar.gedung', function ($subQuery) {
+                $subQuery->where('gedung_id', Auth::user()->gedung_id); // Mengambil hanya gedung dengan id user login
+            }); // Sesuaikan relasi sesuai model
 
         // Handle sorting
         if (request('filter_sort') == 'latest') {
@@ -28,15 +32,15 @@ class LogController extends Controller
                 $q->whereHas('dormitizen', function ($subQuery) use ($searchTerm) {
                     $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
                 })
-                ->orWhereHas('helpdesk', function ($subQuery) use ($searchTerm) {
-                    $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
-                })
-                ->orWhereHas('dormitizen.kamar', function ($subQuery) use ($searchTerm) {
-                    $subQuery->where('nomor', 'like', '%' . $searchTerm . '%');
-                })
-                ->orWhere('waktu', 'like', '%' . $searchTerm . '%')
-                ->orWhere('status', 'like', '%' . $searchTerm . '%')
-                ->orWhere('aktivitas', 'like', '%' . $searchTerm . '%');
+                    ->orWhereHas('helpdesk', function ($subQuery) use ($searchTerm) {
+                        $subQuery->where('nama', 'like', '%' . $searchTerm . '%');
+                    })
+                    ->orWhereHas('dormitizen.kamar', function ($subQuery) use ($searchTerm) {
+                        $subQuery->where('nomor', 'like', '%' . $searchTerm . '%');
+                    })
+                    ->orWhere('waktu', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('status', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('aktivitas', 'like', '%' . $searchTerm . '%');
             });
         }
 
@@ -44,7 +48,8 @@ class LogController extends Controller
         return view('logskeluarmasuk.index', compact('logsData'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $postLogAPI = "{$this->ApiBaseURL}/add-log";
 
         try {
@@ -54,7 +59,7 @@ class LogController extends Controller
                 "status" => "diterima",
                 "dormitizen_id" => $request->dormitizen_id,
                 "senior_resident_id" => null,
-                "helpdesk_id" => $request->pjPenerima, 
+                "helpdesk_id" => $request->pjPenerima,
             ]);
 
             if ($response->successful()) {
@@ -67,11 +72,13 @@ class LogController extends Controller
         }
     }
 
-    public function create(){
+    public function create()
+    {
         return view('logskeluarmasuk.create');
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $getLogAPIbyID = "{$this->ApiBaseURL}/get-log/{$id}";
         try {
             $response = Http::get($getLogAPIbyID);
@@ -83,26 +90,28 @@ class LogController extends Controller
             }
         } catch (\Exception $e) {
             return redirect()->route('logskeluarmasuk.index')->with('error', 'Gagal menghubungi API.');
-        }        
+        }
     }
 
-    public function searchDormitizen(Request $request) {
+    public function searchDormitizen(Request $request)
+    {
         $nomorKamar = $request->input('nomor_kamar');
 
         // Validasi nomor kamar
         if (!$nomorKamar) {
             return redirect()->back()->with('error', 'Nomor kamar harus diisi.');
         }
-        
-        $getLogApi = "{$this->ApiBaseURL}/get-dormitizens/{$this->noGedung}/{$nomorKamar}";
+
+        $kodeGedung = Auth::user()->gedung->kode;
+        $getLogApi = "{$this->ApiBaseURL}/get-dormitizens/{$kodeGedung}/{$nomorKamar}";
 
         try {
             $response = Http::get($getLogApi);
             if ($response->ok() && (count($response->json()['data']) != 0)) {
                 $dormitizens = $response->json()['data'];
                 return redirect()->back()->with([
-                'dormitizens' => $dormitizens,
-                'nomorKamar' => $nomorKamar,
+                    'dormitizens' => $dormitizens,
+                    'nomorKamar' => $nomorKamar,
                 ]);
             } else {
                 return redirect()->back()->with('error', 'Nomor kamar tidak ditemukan.');
@@ -112,7 +121,8 @@ class LogController extends Controller
         }
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $putLogAPI = "{$this->ApiBaseURL}/update-log/{$id}";
         try {
             $response = Http::put($putLogAPI, [

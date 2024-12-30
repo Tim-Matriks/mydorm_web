@@ -9,21 +9,23 @@
                     <div class="container mt-5">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#dormitizen"
-                                    role="tab" aria-controls="dormitizen" aria-selected="true">Detail Penghuni</a>
+                                <a class="nav-link {{ $fromPelanggaran ? '' : 'active' }}" id="home-tab"
+                                    data-bs-toggle="tab" href="#dormitizen" role="tab" aria-controls="dormitizen"
+                                    aria-selected="true">Detail Penghuni</a>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"
                                     aria-controls="profile" aria-selected="false">Log Keluar Masuk</a>
                             </li>
                             <li class="nav-item" role="presentation">
-                                <a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"
-                                    aria-controls="contact" aria-selected="false">Pelanggaran</a>
+                                <a class="nav-link {{ $fromPelanggaran ? 'active' : '' }}" id="contact-tab"
+                                    data-bs-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                                    aria-selected="false">Pelanggaran</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="dormitizen" role="tabpanel"
-                                aria-labelledby="home-tab">
+                            <div class="tab-pane fade {{ $fromPelanggaran ? '' : 'active show' }}" id="dormitizen"
+                                role="tabpanel" aria-labelledby="home-tab">
                                 <div class="table-responsive">
                                     <table class="table table-hover">
                                         <thead class="table-light">
@@ -103,7 +105,8 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="tab-pane fade {{ $fromPelanggaran ? 'active show' : '' }}" id="contact"
+                                role="tabpanel" aria-labelledby="contact-tab">
                                 <div class="mb-4"></div>
                                 @for ($i = 0; $i < count($dormitizens); $i++)
                                     <h2 class="mb-4">{{ $dormitizens[$i]->nama }}</h2>
